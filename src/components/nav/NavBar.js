@@ -13,10 +13,7 @@ export const NavBar = () => {
             borderColor={useColorModeValue("gray.200", "gray.900")}
             bg={useColorModeValue("white", "gray.800")}
             color={useColorModeValue("gray.600", "white")}
-            shadow={"sm"}
-            justifyContent={"center"}
-            z={100}
-        >
+            justifyContent={"center"}>
             <Flex
                 flex={{base: 1}}
                 alignItems={"center"}
@@ -69,8 +66,7 @@ const MobileNav = ({onItemClicked}) => {
                   borderBottom={1}
                   borderStyle={"solid"}
                   borderColor={useColorModeValue("gray.200", "gray.900")}
-                  py={2}
-                  z={0}>
+                  py={2}>
         {
             appLinks.map((appLink, index) => (
                 <MobileNavItem key={index} onItemClicked={onItemClicked} {...appLink.props}/>))
