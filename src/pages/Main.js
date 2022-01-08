@@ -1,4 +1,4 @@
-import {Box, Container, Stack, VStack} from "@chakra-ui/react";
+import {Box, Container} from "@chakra-ui/react";
 import {Outlet} from "react-router-dom";
 import {NavBar} from "../components/nav/NavBar";
 

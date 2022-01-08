@@ -2,7 +2,7 @@ import Link from "./Link";
 import {useColorModeValue} from "@chakra-ui/react";
 import {navLinks} from "./links";
 
-const TextLink = (props) => {
+export const TextLink = (props) => {
     const linkColor = useColorModeValue("green.400", "green.400")
     const linkHoverColor = useColorModeValue("green.600", "green.600")
     return <Link
