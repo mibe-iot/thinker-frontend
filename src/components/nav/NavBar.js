@@ -16,8 +16,8 @@ import Link from "../link/Link";
 export const NavBar = () => {
   const { isOpen, onToggle } = useDisclosure();
   return (
+    <>
       <Flex
-        as={nav}
         borderBottom={1}
         borderStyle={"solid"}
         borderColor={useColorModeValue("gray.200", "gray.900")}
@@ -61,6 +61,7 @@ export const NavBar = () => {
       <Collapse in={isOpen} animateOpacity>
         <MobileNav onItemClicked={onToggle} />
       </Collapse>
+    </>
   );
 };
 
