@@ -1,20 +1,18 @@
 import Link from "./Link";
 import { useColorModeValue } from "@chakra-ui/react";
 import { navLinks } from "./links";
+import { useLinkColors } from "styles/theme/foundations/colors"
 
 export const TextLink = props => {
-  const linkColor = useColorModeValue("green.400", "green.400");
-  const linkHoverColor = useColorModeValue("green.600", "green.600");
+  const linkColors = useLinkColors();
   return (
     <Link
       to={props.to}
       p={2}
-      fontSize={"lg"}
-      fontWeight={600}
-      color={linkColor}
-      _hover={{
+      color= {linkColors.default}
+      _hover= {{
         textDecoration: "none",
-        color: linkHoverColor
+        color: linkColors.hover
       }}
       {...props}
     >
