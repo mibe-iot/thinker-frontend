@@ -1,14 +1,16 @@
-import { Box, Container } from "@chakra-ui/react";
+import { Flex, Container } from "@chakra-ui/react";
 import { Outlet } from "react-router-dom";
 import { NavBar } from "../components/nav/NavBar";
+import { Footer } from "../components/footer/Footer";
 
 export const Main = () => {
   return (
-    <Box>
+    <Flex flexDirection="column" height="100%">
       <NavBar />
-      <Container maxW={"7xl"} p={3}>
+      <Container maxW={"7xl"} p={3} display="flex" flexGrow={1}>
         <Outlet />
       </Container>
-    </Box>
+      <Footer />
+    </Flex>
   );
 };
