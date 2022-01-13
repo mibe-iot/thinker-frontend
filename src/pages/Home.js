@@ -1,10 +1,11 @@
+import { WidgetGrid } from "components/widget/WidgetGrid";
 import { useTextColors } from "styles/theme/foundations/colors";
 
 const Home = () => {
   return (
-    <div>
-      <h2>Home page</h2>
-    </div>
+    <>
+      <WidgetGrid/>
+    </>
   );
 };
 

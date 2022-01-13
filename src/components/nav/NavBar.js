@@ -23,7 +23,7 @@ import { appLinks } from "components/link/TextLink";
 export const NavBar = () => {
   const { isOpen, onToggle } = useDisclosure();
   return (
-    <>
+    <nav>
       <Flex
         borderBottom={1}
         borderStyle={"solid"}
@@ -56,6 +56,6 @@ export const NavBar = () => {
       <Collapse in={isOpen} animateOpacity>
         <MobileNav display={{ md: "none" }} onItemClicked={onToggle} />
       </Collapse>
-    </>
+    </nav>
   );
 };
