@@ -1,5 +1,6 @@
 import { extendTheme } from "@chakra-ui/react";
-import {Link} from "./Link";
+import { Link } from "./Link";
+import { useLinkColors } from "styles/theme/foundations/colors";
 
 const components = extendTheme({
   components: {
@@ -12,4 +13,4 @@ const components = extendTheme({
   }
 });
 
-export {components};
+export { components };

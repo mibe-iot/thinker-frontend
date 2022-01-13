@@ -15,11 +15,12 @@ export const LogoLink = props => {
             theme.colors.gray[200]
           )}
           decorationColor={useColorModeValue(
-            theme.colors.green[800],
+            theme.colors.green[600],
             theme.colors.green[200]
           )}
           {...props}
         />
+        {console.log(theme.colors.green[500])}
       </Link>
     </Flex>
   );

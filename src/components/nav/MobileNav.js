@@ -8,31 +8,27 @@ import {
 } from "styles/theme/foundations/colors";
 import { appLinks } from "components/link/TextLink";
 
-const MobileNavBurger = ({ isOpen, onClick }) => (
-  <Flex
-    flex={{ base: 1, md: "auto" }}
-    justify={{ base: "end" }}
-    display={{ base: "flex", md: "none" }}
-  >
-    <IconButton
-      onClick={onClick}
-      icon={isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />}
-      variant={"ghost"}
-      aria-label={"Toggle Navigation"}
-    />
-  </Flex>
+const MobileNavBurger = ({ isOpen, onToggle, ...other }) => (
+  <IconButton
+    onClick={onToggle}
+    icon={isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />}
+    borderRadius="full"
+    variant={"ghost"}
+    aria-label={"Toggle Navigation"}
+    {...other}
+  />
 );
 
-const MobileNav = ({ onItemClicked }) => {
+const MobileNav = ({ onItemClicked, ...other }) => {
   return (
     <Stack
       spacing={4}
       py={2}
-      display={{ md: "none" }}
       bg={useBackgroundColors().subNav}
       borderBottom={1}
       borderStyle={"solid"}
       borderColor={useBorderColors().nav}
+      {...other}
     >
       {appLinks.map((appLink, index) => (
         <MobileNavItem

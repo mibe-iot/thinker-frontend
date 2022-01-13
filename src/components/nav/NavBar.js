@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { LogoLink } from "components/link/LogoLink";
 import { Link } from "components/link/Link";
+import { ThemeToggleButton } from "components/button/ThemeToggleButton";
 import { MobileNav, MobileNavBurger } from "./MobileNav";
 import { DesktopNav } from "./DesktopNav";
 import {
@@ -42,11 +43,14 @@ export const NavBar = () => {
           <Flex display={{ base: "none", md: "flex" }} ml={"5"}>
             <DesktopNav />
           </Flex>
-          <MobileNavBurger
-            display={{ base: "flex", md: "none" }}
-            isOpen={isOpen}
-            onClick={onToggle}
-          />
+          <Flex flex={{ base: "auto" }} justify={{ base: "end" }}>
+            <ThemeToggleButton />
+            <MobileNavBurger
+              display={{ base: "flex", md: "none" }}
+              isOpen={isOpen}
+              onToggle={onToggle}
+            />
+          </Flex>
         </Flex>
       </Flex>
       <Collapse in={isOpen} animateOpacity>
