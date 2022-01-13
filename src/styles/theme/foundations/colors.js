@@ -5,14 +5,6 @@ import {
   useColorModeValue
 } from "@chakra-ui/react";
 
-const themeColors = {
-  link: {
-    default: ["green.600", "green.200"],
-    hover: ["green.500", "green.600"],
-    hoverBackground: ["green.100", "green.100"]
-  }
-};
-
 const config = {
   initialColorMode: "dark",
   useSystemColorMode: false
@@ -40,11 +32,9 @@ const colorsExtension = extendTheme(
 );
 
 const useLinkColors = () => {
-  const linkColor = useColorModeValue(...themeColors.link.default);
-  const linkHoverColor = useColorModeValue(...themeColors.link.hover);
-  const hoverBackgroundColor = useColorModeValue(
-    ...themeColors.link.hoverBackground
-  );
+  const linkColor = useColorModeValue("green.600", "green.200");
+  const linkHoverColor = useColorModeValue("green.500", "green.600");
+  const hoverBackgroundColor = useColorModeValue("green.100", "green.100");
 
   return {
     default: linkColor,
@@ -88,7 +78,6 @@ const useBorderColors = () => {
 };
 
 export {
-  themeColors,
   colorsExtension,
   useLinkColors,
   useBackgroundColors,
