@@ -8,12 +8,42 @@ const WidgetGrid = () => {
         <Widget title="Title" onToggle="TODO" />
         <Widget title="Title" onToggle="TODO" />
         <Widget title="Title" onToggle="TODO" />
+        <Widget title="Title" onToggle="TODO" height="2rem">
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        </Widget>
         <Widget title="Title" onToggle="TODO" />
         <Widget title="Title" onToggle="TODO" />
         <Widget title="Title" onToggle="TODO" />
         <Widget title="Title" onToggle="TODO" />
         <Widget title="Title" onToggle="TODO" />
         <Widget title="Title" onToggle="TODO" />
+        <Widget title="Title" onToggle="TODO" height="2rem">
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        <p>p</p>
+        </Widget>
         <Widget title="Title" onToggle="TODO" />
         <Widget title="Title" onToggle="TODO" />
         <Widget title="Title" onToggle="TODO" />
