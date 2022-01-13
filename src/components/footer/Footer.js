@@ -5,9 +5,10 @@ import {
   Text,
   useColorModeValue
 } from "@chakra-ui/react";
+import { useBackgroundColors } from "styles/theme/foundations/colors";
 
 const Footer = () => {
-  let backgroundColor = useColorModeValue("gray.600", "gray.800");
+  let backgroundColor = useBackgroundColors().footer;
   let textColor = useColorModeValue("gray.200", "gray.100");
   return (
     <Flex

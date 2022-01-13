@@ -5,4 +5,4 @@ const Link = props => {
   return <ThemeLink as={RouterLink} to={props.to} {...props}></ThemeLink>;
 };
 
-export default Link;
+export { Link };

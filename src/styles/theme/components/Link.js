@@ -1,7 +1,7 @@
 import { extendTheme } from "@chakra-ui/react";
 
-const TextLink = {
-  TextLink: {
+const Link = {
+  Link: {
     baseStyle: {
       fontSize: "lg",
       fontWeight: 900
@@ -9,4 +9,4 @@ const TextLink = {
   }
 };
 
-export { TextLink };
+export { Link };

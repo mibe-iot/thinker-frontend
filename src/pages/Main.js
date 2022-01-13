@@ -1,13 +1,14 @@
 import { Flex, Container } from "@chakra-ui/react";
 import { Outlet } from "react-router-dom";
-import { NavBar } from "../components/nav/NavBar";
-import { Footer } from "../components/footer/Footer";
+import { NavBar } from "components/nav/NavBar";
+import { Footer } from "components/footer/Footer";
+import { useTextColors } from "styles/theme/foundations/colors";
 
 export const Main = () => {
   return (
     <Flex flexDirection="column" height="100%">
       <NavBar />
-      <Container maxW={"7xl"} p={3} display="flex" flexGrow={1}>
+      <Container color={useTextColors().default} maxW={"7xl"} p={3} display="flex" flexGrow={1}>
         <Outlet />
       </Container>
       <Footer />

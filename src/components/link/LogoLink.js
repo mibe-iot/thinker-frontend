@@ -1,10 +1,26 @@
-import { Image } from "@chakra-ui/react";
-import Link from "./Link";
+import { Image, Flex } from "@chakra-ui/react";
+import { Link } from "./Link";
+import { Logo } from "components/logo/Logo";
+import { useColorModeValue } from "@chakra-ui/react"
+import { theme } from "styles/theme/index";
 
-export const LogoLink = ({ h }) => {
+export const LogoLink = props => {
   return (
-    <Link to="/">
-      <Image src={`${process.env.PUBLIC_URL}/logo.svg`} alt="logo" h={h} />
-    </Link>
+    <Flex>
+      <Link to="/">
+        <Logo
+          height="25"
+          lettersColor={useColorModeValue(
+            theme.colors.gray[800],
+            theme.colors.gray[200]
+          )}
+          decorationColor={useColorModeValue(
+            theme.colors.green[800],
+            theme.colors.green[200]
+          )}
+          {...props}
+        />
+      </Link>
+    </Flex>
   );
 };

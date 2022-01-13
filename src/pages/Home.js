@@ -1,3 +1,5 @@
+import { useTextColors } from "styles/theme/foundations/colors";
+
 const Home = () => {
   return (
     <div>

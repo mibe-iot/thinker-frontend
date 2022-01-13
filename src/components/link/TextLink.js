@@ -1,4 +1,4 @@
-import Link from "./Link";
+import { Link } from "./Link";
 import { useColorModeValue } from "@chakra-ui/react";
 import { navLinks } from "./links";
 import { useLinkColors } from "styles/theme/foundations/colors"
