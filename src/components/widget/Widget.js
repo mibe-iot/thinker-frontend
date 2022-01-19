@@ -7,21 +7,24 @@ import {
   Switch,
   Spacer
 } from "@chakra-ui/react";
+import { useBorderColors } from "styles/theme/foundations/colors";
 
 const Widget = ({ title, onToggle, ...props }) => {
+  const hasChildren = props.children && props.children.length > 0
   return (
     <Box
       border={1}
       borderRadius="3xl"
       borderStyle={"solid"}
-      borderColor={"#ffffff"}
+      borderColor={useBorderColors().widget}
       paddingX={3}
+      pb={hasChildren? 3 : 0}
       boxSizing="fitContent"
     >
       <WidgetHeader
         title={title}
         onToggle={onToggle}
-        hasChildren={props.children && props.children.length > 0}
+        hasChildren={hasChildren}
       />
       {props.children}
     </Box>
