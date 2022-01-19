@@ -66,7 +66,7 @@ const useBackgroundColors = () => {
 };
 
 const useBorderColors = () => {
-  const navBorder = useColorModeValue("gray.200", "gray.900");
+  const navBorder = useColorModeValue("gray.200", "gray.600");
   const mainBorder = useColorModeValue("gray.200", "gray.900");
   const footerBorder = useColorModeValue("gray.200", "gray.900");
   const widgetBorder = useColorModeValue("gray.300", "gray.600");
