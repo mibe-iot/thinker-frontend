@@ -11,7 +11,8 @@ export const Main = () => {
       <Container
         color={useTextColors().default}
         maxW={"7xl"}
-        p={3}
+        px={4}
+        py={3}
         display="flex"
         flexGrow={1}
       >

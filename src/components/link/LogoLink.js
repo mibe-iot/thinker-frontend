@@ -20,7 +20,6 @@ export const LogoLink = props => {
           )}
           {...props}
         />
-        {console.log(theme.colors.green[500])}
       </Link>
     </Flex>
   );
