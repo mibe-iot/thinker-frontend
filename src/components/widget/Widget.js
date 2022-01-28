@@ -14,13 +14,13 @@ const Widget = ({ title, onToggle, ...props }) => {
   return (
     <Box
       border={1}
-      borderRadius="3xl"
+      borderRadius="2xl"
       borderStyle={"solid"}
       borderColor={useBorderColors().widget}
       paddingX={3}
       pb={hasChildren? 3 : 0}
       boxSizing="fitContent"
-      boxShadow="md"
+      {...props}
     >
       <WidgetHeader
         title={title}
