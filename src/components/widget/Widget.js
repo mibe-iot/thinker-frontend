@@ -20,6 +20,7 @@ const Widget = ({ title, onToggle, ...props }) => {
       paddingX={3}
       pb={hasChildren? 3 : 0}
       boxSizing="fitContent"
+      boxShadow="md"
     >
       <WidgetHeader
         title={title}
