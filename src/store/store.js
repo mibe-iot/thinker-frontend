@@ -9,7 +9,6 @@ const rootReducer = combineReducers({
   [devicesApi.reducerPath]: devicesApi.reducer
 });
 
-
 export const store = configureStore({
   reducer: rootReducer,
   middleware: getDefaultMiddleware =>

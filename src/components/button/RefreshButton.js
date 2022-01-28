@@ -6,6 +6,6 @@ import { ChakraIcon } from "components/icon/ChakraIcon";
 export const RefreshButton = (props) => {
   const icon = <ChakraIcon icon={IoReloadOutline} fontSize="1.2rem" />
   return (
-    <ActionButton title="Refresh" icon={icon} {...props} />
+  <ActionButton mt={0} icon={icon} {...props} />
   );
 }

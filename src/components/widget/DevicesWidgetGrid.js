@@ -26,9 +26,8 @@ const DevicesWidgetGrid = () => {
     refetch: refetchDevices
   } = devicesApi.useFetchAllLinkedDevicesQuery();
   return (
-    <Stack w="100%">
+    <Stack w="100%" spacing="5">
       <ActionPanel
-        my="0.5rem"
         leftSide={<Text fontSize="2xl">Linked devices</Text>}
         rightSide={<WidgetGridActions refreshAction={refetchDevices} />}
       />

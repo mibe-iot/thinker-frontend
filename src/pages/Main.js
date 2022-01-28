@@ -15,6 +15,7 @@ export const Main = () => {
         py={3}
         display="flex"
         flexGrow={1}
+        my="0.5rem"
       >
         <Outlet />
       </Container>
