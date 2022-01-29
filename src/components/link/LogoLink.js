@@ -18,6 +18,10 @@ export const LogoLink = props => {
             theme.colors.green[600],
             theme.colors.green[200]
           )}
+          decorationHoverColor={useColorModeValue(
+            theme.colors.green[500],
+            theme.colors.green[600]
+          )}
           {...props}
         />
       </Link>

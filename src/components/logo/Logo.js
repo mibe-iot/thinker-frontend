@@ -1,11 +1,20 @@
+import { useHover } from "hooks/useHover";
 import { Flex } from "@chakra-ui/react";
 
-const Logo = ({ height, lettersColor, decorationColor }) => (
+const Logo = ({
+  height,
+  lettersColor,
+  decorationColor,
+  decorationHoverColor
+}) => {
+  const [hoverRef, isHovered] = useHover();
+  return (
     <svg
       fill="white"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 466.43 116.36"
       height={height}
+      ref={hoverRef}
     >
       <path
         fill={lettersColor}
@@ -28,16 +37,17 @@ const Logo = ({ height, lettersColor, decorationColor }) => (
         transform="translate(-10.2 -17.96)"
       />
       <path
-        fill={decorationColor}
+        fill={isHovered ? decorationHoverColor : decorationColor}
         d="M408.68,89.21l-60.33,35.91V111L390.3,85.62,348.35,59.76V46.25L408.68,82.6Z"
         transform="translate(-10.2 -17.96)"
       />
       <path
-        fill={decorationColor}
+        fill={isHovered ? decorationHoverColor : decorationColor}
         d="M422.47,134.31V122.82h54.16v11.49Z"
         transform="translate(-10.2 -17.96)"
       />
     </svg>
-);
+  );
+};
 
 export { Logo };
