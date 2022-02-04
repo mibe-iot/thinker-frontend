@@ -1,7 +1,7 @@
 import { Image, Flex } from "@chakra-ui/react";
 import { Link } from "./Link";
 import { Logo } from "components/logo/Logo";
-import { useColorModeValue } from "@chakra-ui/react"
+import { useColorModeValue } from "@chakra-ui/react";
 import { theme } from "styles/theme/index";
 
 export const LogoLink = props => {

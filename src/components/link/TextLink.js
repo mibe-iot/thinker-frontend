@@ -1,7 +1,7 @@
 import { Link } from "./Link";
 import { useColorModeValue } from "@chakra-ui/react";
 import { navLinks } from "./links";
-import { useLinkColors } from "styles/theme/foundations/colors"
+import { useLinkColors } from "styles/theme/foundations/colors";
 
 export const TextLink = props => {
   const linkColors = useLinkColors();
@@ -9,8 +9,8 @@ export const TextLink = props => {
     <Link
       to={props.to}
       p={2}
-      color= {linkColors.default}
-      _hover= {{
+      color={linkColors.default}
+      _hover={{
         textDecoration: "none",
         color: linkColors.hover
       }}

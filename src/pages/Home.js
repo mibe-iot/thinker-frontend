@@ -5,9 +5,7 @@ import { fetch as fetchWidgets } from "store/slice/widgetsSlice";
 import { useDispatch } from "react-redux";
 
 const Home = () => {
-  return (
-      <DevicesWidgetGrid />
-  );
+  return <DevicesWidgetGrid />;
 };
 
 export default Home;

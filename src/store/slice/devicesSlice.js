@@ -11,8 +11,8 @@ export const devicesSlice = createSlice({
     fetchDevices: state => {
       state.array = [
         {
-          "name": "LightSensor1",
-          "id": "3131"
+          name: "LightSensor1",
+          id: "3131"
         }
       ];
     }

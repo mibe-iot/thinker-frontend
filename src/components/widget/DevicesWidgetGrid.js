@@ -52,12 +52,14 @@ const DevicesWidgetGrid = () => {
   );
 };
 
-const createDevicesActions = (actions) => (
-  actions && actions.map((action) => ({
+const createDevicesActions = actions =>
+  actions &&
+  actions.map(action => ({
     ...action,
-    "execute": ()=>{console.log(action)}
-  }))
-)
+    execute: () => {
+      console.log(action);
+    }
+  }));
 
 const mapDivicesToWidgets = devices =>
   devices.map(device => (
@@ -69,9 +71,7 @@ const mapDivicesToWidgets = devices =>
     >
       {device.reports && (
         <Stack spacing="3">
-          <Text fontSize="lg">
-            {"Last report:"}
-          </Text>
+          <Text fontSize="lg">{"Last report:"}</Text>
           <Text fontSize="sm">{device.reports[0].content}</Text>
         </Stack>
       )}

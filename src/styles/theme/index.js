@@ -5,4 +5,4 @@ import { components } from "./components/index";
 
 const theme = extendTheme(styles, colorsExtension, components);
 
-export { theme }
+export { theme };
