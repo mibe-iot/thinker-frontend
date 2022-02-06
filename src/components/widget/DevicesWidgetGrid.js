@@ -15,6 +15,7 @@ import { Widget } from "./Widget";
 import { ActionPanel } from "components/panel/ActionPanel";
 import { devicesApi } from "services/DeviceService";
 import { WidgetGridActions } from "components/widget/WidgetGridActions";
+import { SpinnerContainer } from "components/spinner/SpinnerContainer";
 
 const DevicesWidgetGrid = () => {
   const dispatch = useDispatch();
@@ -31,23 +32,11 @@ const DevicesWidgetGrid = () => {
         leftSide={<Text fontSize="2xl">Linked devices</Text>}
         rightSide={<WidgetGridActions refreshAction={refetchDevices} />}
       />
-      <Box w="100%">
-        {(isLoading || isFetching) && (
-          <Center>
-            <Spinner size="xl" />
-          </Center>
-        )}
-        {error && (
-          <Center>
-            <Text>{"Error: " + error.message}</Text>
-          </Center>
-        )}
-        {!isFetching && (
+      <SpinnerContainer isLoading={isLoading || isFetching} error={error}>
           <SimpleGrid mt={1} w="100%" minChildWidth="16rem" spacing="2rem">
             {devices && mapDivicesToWidgets(devices)}
           </SimpleGrid>
-        )}
-      </Box>
+      </SpinnerContainer>
     </Stack>
   );
 };

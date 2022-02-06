@@ -6,6 +6,9 @@ export const devicesApi = createApi({
   endpoints: builder => ({
     fetchAllLinkedDevices: builder.query({
       query: () => ({ url: "/devices" })
+    }),
+    fetchAllDiscoveredDevices: builder.query({
+      query: () => ({ url: "/devices/discovered" })
     })
   })
 });
