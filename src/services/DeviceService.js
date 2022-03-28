@@ -1,8 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
+import axios from "axios";
+import ndjsonStream from "can-ndjson-stream";
 
 export const devicesApi = createApi({
   reducerPath: "devicesApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "/api" }),
   endpoints: builder => ({
     fetchAllLinkedDevices: builder.query({
       query: () => ({ url: "/devices" })
@@ -12,3 +14,15 @@ export const devicesApi = createApi({
     })
   })
 });
+
+export const ffetchDevices = async (onDeviceRead, setLoading) => {
+  const response = await fetch("/api/devices");
+  const reader = ndjsonStream(response.body).getReader();
+
+  let result;
+  while(!result || !result.done) {
+    result = await reader.read();
+    !result.done && onDeviceRead(result.value)
+    setLoading(!result.done)
+  }
+}

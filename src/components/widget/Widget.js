@@ -13,6 +13,7 @@ import { useBorderColors } from "styles/theme/foundations/colors";
 
 const Widget = ({ title, onToggle, actions, ...props }) => {
   const hasChildren = props.children;
+  const hasActions = actions && actions.length !== 0;
   return (
     <Box
       border={1}
@@ -27,7 +28,7 @@ const Widget = ({ title, onToggle, actions, ...props }) => {
       <WidgetHeader
         title={title}
         onToggle={onToggle}
-        hasActions={actions && true}
+        hasActions={hasActions}
         hasChildren={hasChildren}
       />
       <WidgetActionPanel actions={actions} hasChildren={hasChildren} />
@@ -57,10 +58,10 @@ const WidgetHeader = ({ title, onToggle, hasActions, hasChildren }) => {
 
 const WidgetActionPanel = ({ actions, hasChildren }) => (
   <>
-    {actions && (
+    {actions && actions.length !== 0 && (
       <>
         <HStack px={2} spacing={2} mb={2}>
-        <Text fontSize="lg">{"Actions:"}</Text>
+          <Text fontSize="lg">{"Actions:"}</Text>
           {actions.map((action, index) => (
             <Button textAlign="center" size="xs" key={index} onClick={action.execute}>{action.name}</Button>
           ))}
