@@ -21,7 +21,7 @@ const createDevicesActions = actions =>
 const mapDevicesToWidgets = devices => {
   return devices && Object.values(devices).map(device => (
     <DeviceWidget
-      maxWidth={devices.length == 1 ? "32rem" : "none"}
+      maxWidth={devices.length === 1 ? "32rem" : "none"}
       key={device.id}
       title={device.id + " " + device.status}
       actions={createDevicesActions(device.actions)}

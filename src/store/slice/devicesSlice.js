@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 import { IDLE, PENDING, UNINITIALIZED } from "api/LoadingStatus";
-import { BASE_URL, fetchNdjson } from "api/ThinkerApi";
-import { useEffect, useState } from "react";
+import { BASE_URL, fetchNdjson } from "api/thinkerApi";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const devicesAdapter = createEntityAdapter()
@@ -9,22 +10,21 @@ const devicesAdapter = createEntityAdapter()
 export const fetchDevices = createAsyncThunk(
   "devices/fetchAll",
   async (userData, { getState, requestId, dispatch }) => {
-      const { currentRequestId, loadingStatus } = getState().devices
-      const isCurrentRequest = (currentRequestId, requestId) => currentRequestId === requestId;
+    const { currentRequestId, loadingStatus } = getState().devices
+    const isCurrentRequest = (currentRequestId, requestId) => currentRequestId === requestId;
 
-      if (loadingStatus !== PENDING || !isCurrentRequest(currentRequestId, requestId)) {
-          return
-      }
-
-      await fetchNdjson(get("/devices"),
-          (device) => { dispatch(deviceFetched(device))},);
+    if (loadingStatus !== PENDING || !isCurrentRequest(currentRequestId, requestId)) {
       return
+    }
+
+    await fetchNdjson(get("/devices"), (device) => { dispatch(deviceFetched(device)) },);
+    return
   }
 )
 
 export const devicesSlice = createSlice({
   name: "devices",
-  initialState : devicesAdapter.getInitialState({
+  initialState: devicesAdapter.getInitialState({
     loadingStatus: UNINITIALIZED,
     currentRequestId: undefined,
   }),
@@ -56,17 +56,17 @@ export const devicesSlice = createSlice({
 });
 
 export const useFetchDevicesQuery = () => {
-    const {entities, ids, loadingStatus} = useSelector((state) => state.devices)
-    const dispatch = useDispatch();
-    useEffect(() => dispatch(fetchDevices()), []);
-    return {
-      data: entities,
-      ids: ids,
-      isUninitialized: loadingStatus === UNINITIALIZED, 
-      isLoading: loadingStatus === PENDING,
-      isDone: loadingStatus === IDLE,
-      refetch: () => dispatch(fetchDevices())
-    }
+  const { entities, ids, loadingStatus } = useSelector((state) => state.devices)
+  const dispatch = useDispatch();
+  useEffect(() => dispatch(fetchDevices()), []);
+  return {
+    data: entities,
+    ids: ids,
+    isUninitialized: loadingStatus === UNINITIALIZED,
+    isLoading: loadingStatus === PENDING,
+    isDone: loadingStatus === IDLE,
+    refetch: () => dispatch(fetchDevices())
+  }
 }
 
 const get = (url) => BASE_URL + url
