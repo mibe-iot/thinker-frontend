@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 import { IDLE, PENDING, UNINITIALIZED } from "api/LoadingStatus";
-import { BASE_URL, fetchNdjson } from "api/thinkerApi";
+import { get, fetchNdjson } from "api/thinkerApi";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -68,8 +68,6 @@ export const useFetchDevicesQuery = () => {
     refetch: () => dispatch(fetchDevices())
   }
 }
-
-const get = (url) => BASE_URL + url
 
 export const { deviceFetched } = devicesSlice.actions;
 export const devicesReducer = devicesSlice.reducer;

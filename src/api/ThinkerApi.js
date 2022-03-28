@@ -1,6 +1,8 @@
 
 export const BASE_URL = "/api"
 
+export const get = (url) => BASE_URL + url
+
 export const fetchNdjson = async (url, onObjRead, onFinish) => {
     // const response = await fetch(url);
     // const reader = ndjsonStream(response.body).getReader();
