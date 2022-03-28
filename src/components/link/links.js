@@ -4,7 +4,7 @@ export const navLinks = [
     to: "/"
   },
   {
-    title: "Devices",
-    to: "/devices"
+    title: "Connect",
+    to: "/connect"
   }
 ];

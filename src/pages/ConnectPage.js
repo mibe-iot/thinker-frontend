@@ -1,11 +1,9 @@
 import { DiscoveredDevices } from "components/devices/discovered/DiscoveredDevices"
 
-const Devices = () => {
+export const ConnectPage = () => {
   return (
     <>
       <DiscoveredDevices />
     </>
   );
 };
-
-export default Devices;
