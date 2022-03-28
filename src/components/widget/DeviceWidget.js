@@ -1,17 +1,10 @@
 import {
-  Box,
-  Flex,
-  HStack,
-  Text,
-  Divider,
-  Stack,
-  Switch,
-  Spacer,
-  Button
+  Box, Button, Divider, Flex,
+  HStack, Spacer, Switch, Text
 } from "@chakra-ui/react";
 import { useBorderColors } from "styles/theme/foundations/colors";
 
-const Widget = ({ title, onToggle, actions, ...props }) => {
+const DeviceWidget = ({ title, onToggle, actions, ...props }) => {
   const hasChildren = props.children;
   const hasActions = actions && actions.length !== 0;
   return (
@@ -72,4 +65,5 @@ const WidgetActionPanel = ({ actions, hasChildren }) => (
   </>
 );
 
-export { Widget };
+export { DeviceWidget };
+

@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
-import axios from "axios";
 import ndjsonStream from "can-ndjson-stream";
 
 export const devicesApi = createApi({
