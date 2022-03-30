@@ -9,7 +9,7 @@ import { useCooldown } from "hooks/useCooldown";
 export const ConnectPage = () => {
   const { data: isDiscoveryActive, isError } = useGetDiscoveryStatusQuery();
   return (
-    <Stack w="100%" spacing="5">
+    <Stack w="100%" spacing="4">
       <ActionPanel
         leftSide={
           <HStack gap={4} alignItems="center">
@@ -42,6 +42,6 @@ const DiscoverySwitch = () => {
       isDisabled={isFetching || !isCooledDown}
       onChange={() => { startCooldown(); }}
     />
-    { isError && <Tooltip label={JSON.stringify(error)} placement="right"><WarningIcon color={warningColor}/></Tooltip>}
+    { isError && <Tooltip borderRadius="lg" label={error.data} placement="right"><WarningIcon color={warningColor}/></Tooltip>}
   </HStack>
 }
