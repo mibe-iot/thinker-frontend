@@ -4,7 +4,7 @@ import { DeviceWidget } from "./DeviceWidget";
 
 const DeviceWidgetGrid = () => {
   const { data: devices } = useFetchDevicesQuery();
-  return <SimpleGrid mt={1} w="100%" minChildWidth="16rem" spacing="2rem">
+  return <SimpleGrid mt={1} w="100%" columns={{base:1, md:2, lg:3, xl:4}} spacing="1.5rem">
     {mapDevicesToWidgets(devices)}
   </SimpleGrid>
 };
@@ -21,7 +21,6 @@ const createDevicesActions = actions =>
 const mapDevicesToWidgets = devices => {
   return devices && Object.values(devices).map(device => (
     <DeviceWidget
-      maxWidth={devices.length === 1 ? "32rem" : "none"}
       key={device.id}
       title={device.id + " " + device.status}
       actions={createDevicesActions(device.actions)}

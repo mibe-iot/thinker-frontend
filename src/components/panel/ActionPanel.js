@@ -1,7 +1,12 @@
-import { Flex, Box } from "@chakra-ui/react";
+import { Flex, Box, Stack } from "@chakra-ui/react";
 
 export const ActionPanel = ({ leftSide, rightSide, ...props }) => (
-  <Flex justifyContent="space-between" {...props}>
+  <Stack
+    align={{ base: "end", md: "start" }}
+    justifyContent="space-between"
+    direction={{ base: "column", "md": "row" }}
+    {...props}
+  >
     {leftSide && (
       <Flex justifyContent="center" justify="start" alignItems="center">
         <Box maxW={"7xl"} flexGrow={1}>
@@ -10,5 +15,5 @@ export const ActionPanel = ({ leftSide, rightSide, ...props }) => (
       </Flex>
     )}
     {rightSide && rightSide}
-  </Flex>
+  </Stack>
 );
