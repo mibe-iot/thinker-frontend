@@ -22,6 +22,7 @@ export const DiscoveredDeviceCard = ({ name, address, discoveredAt, rssi, knownD
 
                 <VStack alignItems="start" spacing={0.5}>
                     <Text fontSize="sm">{address}</Text>
+                    <Text fontSize="sm">{discoveredAt}</Text>
                     <Text fontSize="sm">Rssi: {rssi}</Text>
                 </VStack>
             </VStack>
@@ -34,12 +35,12 @@ export const DiscoveredDeviceCard = ({ name, address, discoveredAt, rssi, knownD
 
 const KnownDeviceFooter = () => (
     <Box h="100%" px={3} w="100%" bg={useBackgroundColors().good}>
-        <Text fontSize="sm" textColor={useTextColors().dark}>Known device</Text>
+        <Text fontSize="sm" textColor={useTextColors().dark}>Known device type</Text>
     </Box>
 );
 
 const UnknownDeviceFooter = () => (
     <Box h="100%" px={3} w="100%" bg={useBackgroundColors().cardFooter}>
-        <Text fontSize="sm">Unknown device</Text>
+        <Text fontSize="sm">Unknown device type</Text>
     </Box>
 );

@@ -16,6 +16,7 @@ export const fetchNdjson = async (url, onObjRead, onFinish) => {
                 "id": parseInt((Math.random() * 100)) + "",
                 "status": "CONFIGURED",
                 latestReport: null,
+                "address": (Math.random() * 100),
                 "actions": [{ "name": "kick" }, { "name": "flip" }]
             }
         }

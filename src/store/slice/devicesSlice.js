@@ -5,11 +5,13 @@ import { get, fetchNdjson } from "api/thinkerApi";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const devicesAdapter = createEntityAdapter()
+const devicesAdapter = createEntityAdapter({
+  selectId: (entity) => entity.address
+})
 
 export const fetchDevices = createAsyncThunk(
   "devices/fetchAll",
-  async (userData, { getState, requestId, dispatch }) => {
+  async (_, { getState, requestId, dispatch }) => {
     const { currentRequestId, loadingStatus } = getState().devices
     const isCurrentRequest = (currentRequestId, requestId) => currentRequestId === requestId;
 
