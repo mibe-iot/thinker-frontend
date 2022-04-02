@@ -2,9 +2,9 @@ import { Box, Button, Flex, Spacer, Text, VStack } from "@chakra-ui/react";
 import { useBackgroundColors, useBorderColors, useTextColors } from "styles/theme/foundations/colors";
 
 
-export const DiscoveredDeviceCard = ({ name, address, discoveredAt, rssi, knownDevice }) => {
+export const DiscoveredDeviceCard = ({ id, name, address, discoveredAt, rssi, knownDevice }) => {
     return (
-        <Box
+        <Flex
             border={1}
             p={0}
             borderRadius="2xl"
@@ -12,10 +12,11 @@ export const DiscoveredDeviceCard = ({ name, address, discoveredAt, rssi, knownD
             borderColor={useBorderColors().widget}
             boxSizing="fitContent"
             overflow="hidden"
+            flexDirection="column"
         >
-            <VStack flex={1} px={3} pt={2} mb={2} alignItems="start">
-                <Flex w="100%" mb={3} alignItems="center">
-                    <Text fontSize="3xl" align="center">{name}</Text>
+            <VStack flex={1} px={3} pt={3} mb={2} alignItems="start">
+                <Flex flex={1} w="100%" mb={3} alignItems="top">
+                    <Text fontSize="2xl" align="start">{name ? name : "[unknown]"}</Text>
                     <Spacer />
                     <Button variant="outline" size="sm" px={5} borderRadius="full">Connect</Button>
                 </Flex>
@@ -29,18 +30,18 @@ export const DiscoveredDeviceCard = ({ name, address, discoveredAt, rssi, knownD
             {
                 knownDevice ? <KnownDeviceFooter /> : <UnknownDeviceFooter />
             }
-        </Box>
+        </Flex>
     )
 }
 
 const KnownDeviceFooter = () => (
-    <Box h="100%" px={3} w="100%" bg={useBackgroundColors().good}>
+    <Box px={3} w="100%" bg={useBackgroundColors().good}>
         <Text fontSize="sm" textColor={useTextColors().dark}>Known device type</Text>
     </Box>
 );
 
 const UnknownDeviceFooter = () => (
-    <Box h="100%" px={3} w="100%" bg={useBackgroundColors().cardFooter}>
+    <Box px={3} w="100%" bg={useBackgroundColors().cardFooter}>
         <Text fontSize="sm">Unknown device type</Text>
     </Box>
 );

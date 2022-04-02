@@ -1,8 +1,5 @@
 import {
-  extendTheme,
-  withDefaultColorScheme,
-  theme as baseTheme,
-  useColorModeValue
+  extendTheme, useColorModeValue, withDefaultColorScheme
 } from "@chakra-ui/react";
 
 const config = {
@@ -58,8 +55,8 @@ const useBackgroundColors = () => {
   const subNavBg = useColorModeValue("gray.50", "gray.900");
   const mainBg = useColorModeValue("gray.100", "gray.800");
   const footerBg = useColorModeValue("gray.600", "gray.900");
-  const cardFooterBg = useColorModeValue("gray.200", "gray.600");  
-  const goodBg = useColorModeValue("green.200", "green.200");  
+  const cardFooterBg = useColorModeValue("gray.200", "gray.600");
+  const goodBg = useColorModeValue("green.200", "green.200");
 
   return {
     default: mainBg,
@@ -92,3 +89,4 @@ export {
   useBorderColors,
   useTextColors
 };
+

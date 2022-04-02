@@ -1,6 +1,6 @@
-import { Flex, FormControl, FormLabel, HStack, Kbd, Stack, VStack } from "@chakra-ui/react";
-import { useHotkeys, isHotkeyPressed } from "react-hotkeys-hook";
+import { Flex, FormControl, FormLabel, HStack, Kbd } from "@chakra-ui/react";
 import { RefreshButton } from "components/button/RefreshButton";
+import { isHotkeyPressed, useHotkeys } from "react-hotkeys-hook";
 
 export const RefreshAction = ({ refreshAction, refreshHotkeys, title, isLoading, ...props }) => {
   useHotkeys(refreshHotkeys.toLowerCase(), () => { if (!isLoading) { refreshAction() } });

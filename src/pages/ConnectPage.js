@@ -1,13 +1,16 @@
 import { WarningIcon } from "@chakra-ui/icons";
 import { FormControl, FormLabel, HStack, Stack, Switch, Tooltip, useColorModeValue } from "@chakra-ui/react";
-import { useGetDiscoveryStatusQuery } from "api/services/discoveryApi";
+import { selectDiscoveryStatus, useGetDiscoveryStatusQuery, useSetDiscoveryActiveMutation } from "api/services/discoveryApi";
 import { DiscoveredDevices } from "components/devices/discovery/DiscoveredDevices";
 import { ActionPanel } from "components/panel/ActionPanel";
 import { RefreshAction } from "components/panel/actions/RefreshAction";
 import { useCooldown } from "hooks/useCooldown";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { setDiscoveryStatus, useDiscoveryStatus } from "store/slice/discoverySlice";
 
 export const ConnectPage = () => {
-  const { data: isDiscoveryActive, isError } = useGetDiscoveryStatusQuery();
+  const {data: isDiscoveryActive, isLoading, updateDiscoveryStatus} = useDiscoveryStatus();
   return (
     <Stack w="100%" spacing="4">
       <ActionPanel
@@ -25,23 +28,25 @@ export const ConnectPage = () => {
           </HStack>
         }
       />
-      {/* { isDiscoveryActive && !isError && */ <DiscoveredDevices /> }
+      { isDiscoveryActive && <DiscoveredDevices />}
     </Stack>
   );
 };
 
 const DiscoverySwitch = () => {
-  const [isCooledDown, startCooldown] = useCooldown(1000);
-  const { data: isDiscoveryActive, isFetching, isError, error } = useGetDiscoveryStatusQuery();
-  const warningColor = useColorModeValue("yellow.400", "yellow.400");
+  const [isCooledDown, startCooldown] = useCooldown(500);
+  const {data: discoveryStatus, isLoading, updateDiscoveryStatus} = useDiscoveryStatus();
+  // const warningColor = useColorModeValue("yellow.400", "yellow.400");
+
   return <HStack>
     <Switch
       id="discoverySwitch"
-      defaultChecked={isDiscoveryActive}
+      isChecked={discoveryStatus}
       size="lg"
-      isDisabled={isFetching || !isCooledDown}
-      onChange={() => { startCooldown(); }}
+      isDisabled={isLoading || !isCooledDown}
+      onChange={(event) => { startCooldown(); updateDiscoveryStatus(!discoveryStatus)}}
     />
-    { isError && <Tooltip borderRadius="lg" label={error.data} placement="right"><WarningIcon color={warningColor}/></Tooltip>}
+    {/* {isError && <Tooltip borderRadius="lg" label={error.data} placement={{base:"left", md:"right"}}><WarningIcon color={warningColor} /></Tooltip>} */}
+    {/* {isSettingError && <Tooltip borderRadius="lg" label={settingError.data} placement={{base:"left", md:"right"}}><WarningIcon color={warningColor} /></Tooltip>} */}
   </HStack>
 }

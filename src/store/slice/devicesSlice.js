@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 import { IDLE, PENDING, UNINITIALIZED } from "api/LoadingStatus";
-import { get, fetchNdjson } from "api/thinkerApi";
+import { buildApiUrl, fetchNdjson } from "api/thinkerApi";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { onRequestFulfilled, onRequestPending, onRequestRejected } from "./slices";
 
 const devicesAdapter = createEntityAdapter({
   selectId: (entity) => entity.address
@@ -13,14 +14,12 @@ export const fetchDevices = createAsyncThunk(
   "devices/fetchAll",
   async (_, { getState, requestId, dispatch }) => {
     const { currentRequestId, loadingStatus } = getState().devices
-    const isCurrentRequest = (currentRequestId, requestId) => currentRequestId === requestId;
 
-    if (loadingStatus !== PENDING || !isCurrentRequest(currentRequestId, requestId)) {
+    if (loadingStatus !== PENDING || currentRequestId !== requestId) {
       return
     }
 
-    await fetchNdjson(get("/devices"), (device) => { dispatch(deviceFetched(device)) },);
-    return
+    await fetchNdjson(buildApiUrl("/devices"), (device) => { dispatch(deviceFetched(device)) });
   }
 )
 
@@ -37,6 +36,7 @@ export const devicesSlice = createSlice({
     builder
       .addCase(fetchDevices.pending, (state, action) => {
         if (state.loadingStatus === IDLE || state.loadingStatus === UNINITIALIZED) {
+          console.log("a")
           state.loadingStatus = PENDING;
           state.currentRequestId = action.meta.requestId;
         }
@@ -52,6 +52,7 @@ export const devicesSlice = createSlice({
         }
       })
       .addCase(fetchDevices.rejected, (state, action) => {
+        state.loadingStatus = IDLE  
         console.error("device fetch rejected")
       })
   }

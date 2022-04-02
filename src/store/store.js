@@ -3,10 +3,12 @@ import { widgetsReducer } from "./slice/widgetsSlice";
 import { devicesReducer } from "./slice/devicesSlice";
 import { devicesApi } from "services/DeviceService";
 import { discoveryApi } from "api/services/discoveryApi";
+import { discoveryReducer } from "./slice/discoverySlice";
 
 const rootReducer = combineReducers({
   widgets: widgetsReducer,
   devices: devicesReducer,
+  discovery: discoveryReducer,
   [devicesApi.reducerPath]: devicesApi.reducer,
   [discoveryApi.reducerPath]: discoveryApi.reducer
 });
