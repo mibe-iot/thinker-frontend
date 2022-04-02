@@ -26,9 +26,10 @@ const mapDevicesToWidgets = devices => {
       actions={createDevicesActions(device.actions)}
     >
       {device.latestReport && (
-        <Stack spacing="3">
+        <Stack spacing="1">
+          <Text fontSize="md">latest report:</Text>
           {Object.entries(device.latestReport.reportData).map(([key, value]) => (
-            <Text>{key + " : " + value}</Text>
+            <Text fontSize="xs">{key + " : " + value}</Text>
           ))}
         </Stack>
       )}

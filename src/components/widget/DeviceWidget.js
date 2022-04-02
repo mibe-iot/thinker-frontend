@@ -8,7 +8,8 @@ const DeviceWidget = ({ title, onToggle, actions, ...props }) => {
   const hasChildren = props.children;
   const hasActions = actions && actions.length !== 0;
   return (
-    <Box
+    <Flex
+      flexDir="column"
       border={1}
       borderRadius="2xl"
       borderStyle={"solid"}
@@ -26,7 +27,7 @@ const DeviceWidget = ({ title, onToggle, actions, ...props }) => {
       />
       <WidgetActionPanel actions={actions} hasChildren={hasChildren} />
       <Box px={2}>{props.children}</Box>
-    </Box>
+    </Flex>
   );
 };
 
@@ -36,7 +37,7 @@ const WidgetHeader = ({ title, onToggle, hasActions, hasChildren }) => {
       {title ? (
         <>
           <Flex alignItems="center" py={3} px={2}>
-            <Text fontSize="lg" fontWeight="bold" textAlign="left">{title}</Text>
+            <Text fontSize="lg" fontWeight="bold" textAlign="center">{title}</Text>
             <Spacer />
             {onToggle ? <Switch display="contents" /> : ""}
           </Flex>
@@ -53,12 +54,17 @@ const WidgetActionPanel = ({ actions, hasChildren }) => (
   <>
     {actions && actions.length !== 0 && (
       <>
-        <HStack px={2} spacing={2} mb={2}>
-          <Text fontSize="lg">{"Actions:"}</Text>
+        <Flex flexWrap="wrap" alignItems="baseline" px={2} spacing={2} mb={2}>
+          <Text fontSize="md" me={0.5}>{"actions:"}</Text>
           {actions.map((action, index) => (
-            <Button textAlign="center" size="xs" key={index} onClick={action.execute}>{action.name}</Button>
+            <>
+              <Button variant="outline" py={3} px={3} opacity={0.8} m={0.5} borderRadius="full" textAlign="center" size="xs" key={index} onClick={action.execute}>{action.name}</Button>
+              <Button variant="outline" py={3} px={3} opacity={0.8} m={0.5} borderRadius="full" textAlign="center" size="xs" key={index} onClick={action.execute}>{action.name}</Button>
+              <Button variant="outline" py={3} px={3} opacity={0.8} m={0.5} borderRadius="full" textAlign="center" size="xs" key={index} onClick={action.execute}>{action.name}</Button>
+              <Button variant="outline" py={3} px={3} opacity={0.8} m={0.5} borderRadius="full" textAlign="center" size="xs" key={index} onClick={action.execute}>{action.name}</Button>
+            </>
           ))}
-        </HStack>
+        </Flex>
         {hasChildren && <Divider mb={2} />}
       </>
     )}
