@@ -22,13 +22,14 @@ const mapDevicesToWidgets = devices => {
   return devices && Object.values(devices).map(device => (
     <DeviceWidget
       key={device.id}
-      title={device.id + " " + device.status}
+      title={device.deviceClass ? device.deviceClass : device.id}
       actions={createDevicesActions(device.actions)}
     >
       {device.latestReport && (
         <Stack spacing="3">
-          <Text fontSize="lg">{"Last report:"}</Text>
-          <Text fontSize="sm">{JSON.stringify(device.latestReport.reportData)}</Text>
+          {Object.entries(device.latestReport.reportData).map(([key, value]) => (
+            <Text>{key + " : " + value}</Text>
+          ))}
         </Stack>
       )}
     </DeviceWidget>

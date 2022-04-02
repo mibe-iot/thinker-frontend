@@ -36,7 +36,7 @@ const WidgetHeader = ({ title, onToggle, hasActions, hasChildren }) => {
       {title ? (
         <>
           <Flex alignItems="center" py={3} px={2}>
-            <Text fontSize="lg" fontWeight="bold" textAlign="center">{title}</Text>
+            <Text fontSize="lg" fontWeight="bold" textAlign="left">{title}</Text>
             <Spacer />
             {onToggle ? <Switch display="contents" /> : ""}
           </Flex>
