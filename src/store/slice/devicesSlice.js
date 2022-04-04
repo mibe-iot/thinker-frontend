@@ -4,9 +4,8 @@ import { IDLE, PENDING, UNINITIALIZED } from "api/LoadingStatus";
 import { buildApiUrl, fetchNdjson } from "api/thinkerApi";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { onRequestFulfilled, onRequestPending, onRequestRejected } from "./slices";
 
-const devicesAdapter = createEntityAdapter({
+export const devicesAdapter = createEntityAdapter({
   selectId: (entity) => entity.address
 })
 
@@ -28,15 +27,16 @@ export const devicesSlice = createSlice({
   initialState: devicesAdapter.getInitialState({
     loadingStatus: UNINITIALIZED,
     currentRequestId: undefined,
+    activeDeviceAddress: undefined
   }),
   reducers: {
-    deviceFetched: devicesAdapter.setOne
+    deviceFetched: devicesAdapter.setOne,
+    setActiveDeviceAddress: (state, action) => {state.activeDeviceAddress = action.payload}
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchDevices.pending, (state, action) => {
         if (state.loadingStatus === IDLE || state.loadingStatus === UNINITIALIZED) {
-          console.log("a")
           state.loadingStatus = PENDING;
           state.currentRequestId = action.meta.requestId;
         }
@@ -53,7 +53,6 @@ export const devicesSlice = createSlice({
       })
       .addCase(fetchDevices.rejected, (state, action) => {
         state.loadingStatus = IDLE  
-        console.error("device fetch rejected")
       })
   }
 });
@@ -72,5 +71,5 @@ export const useFetchDevicesQuery = () => {
   }
 }
 
-export const { deviceFetched } = devicesSlice.actions;
+export const { deviceFetched, setActiveDeviceAddress } = devicesSlice.actions;
 export const devicesReducer = devicesSlice.reducer;

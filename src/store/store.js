@@ -1,9 +1,9 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { widgetsReducer } from "./slice/widgetsSlice";
 import { devicesReducer } from "./slice/devicesSlice";
-import { devicesApi } from "services/DeviceService";
 import { discoveryApi } from "api/services/discoveryApi";
 import { discoveryReducer } from "./slice/discoverySlice";
+import { devicesApi } from "api/services/devicesApi";
 
 const rootReducer = combineReducers({
   widgets: widgetsReducer,

@@ -1,51 +1,50 @@
-import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { IDLE, PENDING, UNINITIALIZED } from "api/LoadingStatus";
 import { buildApiUrl } from "api/thinkerApi";
 import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import { onRequestFulfilled, onRequestPending, onRequestRejected } from "./slices";
-
-const discoveryAdapter = createEntityAdapter({
-    selectId: (entity) => entity.address
-})
 
 const getDiscoveryStatus = createAsyncThunk(
     "discovery/status/get",
-    async (_, { getState, requestId, dispatch }) => {
+    async (_, { getState, requestId, dispatch, rejectWithValue }) => {
         const { currentRequestId, loadingStatus } = getState().discovery
 
         if (loadingStatus !== PENDING || currentRequestId !== requestId) {
             return
         }
-        
+
         const url = buildApiUrl("/discovery/status");
-        const discoveryStatus = await axios(url);
+        const discoveryStatus = await axios(url)
+            .catch(error => rejectWithValue(error.message));
         dispatch(setDiscoveryStatus(discoveryStatus.data.isActive))
     }
 )
 
 const putDiscoveryStatus = createAsyncThunk(
     "discovery/status/put",
-    async (activateDiscovery, { getState, requestId, dispatch }) => {
+    async (activateDiscovery, { getState, requestId, dispatch, rejectWithValue }) => {
         const { currentRequestId, loadingStatus } = getState().discovery
         if (loadingStatus !== PENDING || currentRequestId !== requestId) {
             return
         }
 
         const url = buildApiUrl("/discovery/status", { setActive: activateDiscovery });
-        const discoveryStatus = await axios.post(url);
+        const discoveryStatus = await axios.post(url)
+            .catch(error => rejectWithValue(error.message));
         dispatch(setDiscoveryStatus(discoveryStatus.data.isActive))
     }
 )
 
 export const discoverySlice = createSlice({
     name: "discovery",
-    initialState: discoveryAdapter.getInitialState({
+    initialState: {
         loadingStatus: UNINITIALIZED,
         currentRequestId: undefined,
-        discoveryStatus: undefined
-    }),
+        discoveryStatus: undefined,
+        error: undefined,
+        isError: false
+    },
     reducers: {
         setDiscoveryStatus: (state, action) => {
             state.discoveryStatus = action.payload
@@ -68,11 +67,14 @@ export const discoverySlice = createSlice({
                 ) {
                     state.loadingStatus = IDLE
                     state.currentRequestId = undefined
+                    state.isError = false
+                    state.error = undefined
                 }
             })
             .addCase(getDiscoveryStatus.rejected, (state, action) => {
                 state.loadingStatus = IDLE
-                console.error("device fetch rejected")
+                state.isError = true
+                state.error = action.payload
             })
             .addCase(putDiscoveryStatus.pending, (state, action) => {
                 if (state.loadingStatus === IDLE || state.loadingStatus === UNINITIALIZED) {
@@ -88,23 +90,28 @@ export const discoverySlice = createSlice({
                 ) {
                     state.loadingStatus = IDLE
                     state.currentRequestId = undefined
+                    state.isError = false
+                    state.error = undefined
                 }
             })
             .addCase(putDiscoveryStatus.rejected, (state, action) => {
                 state.loadingStatus = IDLE
-                console.error("discovery fetch rejected")
+                state.isError = true
+                state.error = action.payload
             })
     }
 });
 
 export const useDiscoveryStatus = () => {
-    const { discoveryStatus, loadingStatus } = useSelector(state => state.discovery);
+    const { discoveryStatus, loadingStatus, isError, error } = useSelector(state => state.discovery);
     const dispatch = useDispatch();
     useEffect(() => dispatch(getDiscoveryStatus()), []);
     return {
         data: discoveryStatus,
         isLoading: loadingStatus === PENDING,
         isDone: loadingStatus === IDLE,
+        isError: isError,
+        error: error,
         refetch: () => dispatch(getDiscoveryStatus()),
         updateDiscoveryStatus: (value) => dispatch(putDiscoveryStatus(value))
     }

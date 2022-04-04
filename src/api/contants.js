@@ -1,0 +1,7 @@
+
+
+export const DEVICE_NAME_MIN_LENGTH = 4;
+export const DEVICE_NAME_LENGTH = 256;
+export const DEVICE_DESCRIPTION_LENGTH = 2048;
+export const DEVICE_CLASS_MAX_LENGTH = 256;
+export const DEVICE_REPORT_TYPES_MIN_LENGTH = 1;
