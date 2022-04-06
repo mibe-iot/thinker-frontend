@@ -73,12 +73,14 @@ const useBorderColors = () => {
   const mainBorder = useColorModeValue("gray.200", "gray.900");
   const footerBorder = useColorModeValue("gray.200", "gray.900");
   const widgetBorder = useColorModeValue("gray.300", "gray.600");
+  const lightBorder = useColorModeValue("gray.300", "gray.500")
 
   return {
     default: mainBorder,
     nav: navBorder,
     footer: footerBorder,
-    widget: widgetBorder
+    widget: widgetBorder,
+    lightBorder: lightBorder
   };
 };
 

@@ -7,6 +7,7 @@ import { IoResize } from "react-icons/io5";
 import { useDispatch } from "react-redux";
 import { setActiveDeviceAddress } from "store/slice/devicesSlice";
 import { useBorderColors } from "styles/theme/foundations/colors";
+import { coalesce } from "utils/utils";
 
 const DeviceWidget = ({ device, onOpen, ...props }) => (
   <VStack
@@ -20,7 +21,7 @@ const DeviceWidget = ({ device, onOpen, ...props }) => (
     divider={<Divider />}
     {...props}
   >
-    <WidgetHeader title={device.deviceClass ? device.deviceClass : device.id} itemAddress={device.address} onOpen={onOpen} />
+    <WidgetHeader title={coalesce(device.name, device.deviceClass, device.id)} itemAddress={device.address} onOpen={onOpen} />
     <DeviceActionChips device={device} />
     <Box px={2}>{props.children}</Box>
   </VStack>
