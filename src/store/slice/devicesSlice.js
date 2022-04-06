@@ -19,6 +19,7 @@ export const fetchDevices = createAsyncThunk(
     }
 
     await fetchNdjson(buildApiUrl("/devices"), (device) => { dispatch(deviceFetched(device)) });
+    dispatch(removeOldFetchDevices());
   }
 )
 
@@ -27,11 +28,19 @@ export const devicesSlice = createSlice({
   initialState: devicesAdapter.getInitialState({
     loadingStatus: UNINITIALIZED,
     currentRequestId: undefined,
-    activeDeviceAddress: undefined
+    activeDeviceAddress: undefined,
+    currentFetch: []
   }),
   reducers: {
-    deviceFetched: devicesAdapter.setOne,
-    setActiveDeviceAddress: (state, action) => {state.activeDeviceAddress = action.payload}
+    deviceFetched: (state, action) => { 
+      state.currentFetch.push(action.payload.address); 
+      devicesAdapter.setOne(state, action.payload) 
+    },
+    setActiveDeviceAddress: (state, action) => {state.activeDeviceAddress = action.payload},
+    removeOldFetchDevices: (state) => {
+      devicesAdapter.removeMany(state, state.ids.filter(it => !state.currentFetch.includes(it)))
+      state.currentFetch = []
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -53,6 +62,7 @@ export const devicesSlice = createSlice({
       })
       .addCase(fetchDevices.rejected, (state, action) => {
         state.loadingStatus = IDLE  
+        state.currentRequestId = undefined
       })
   }
 });
@@ -71,5 +81,5 @@ export const useFetchDevicesQuery = () => {
   }
 }
 
-export const { deviceFetched, setActiveDeviceAddress } = devicesSlice.actions;
+export const { deviceFetched, setActiveDeviceAddress, removeOldFetchDevices } = devicesSlice.actions;
 export const devicesReducer = devicesSlice.reducer;

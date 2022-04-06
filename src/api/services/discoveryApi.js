@@ -17,6 +17,12 @@ export const discoveryApi = createApi({
                 method: "POST"
             }),
             transformResponse: (response) => response.isActive
+        }),
+        connectDevice: builder.mutation({
+            query: (deviceAddress) => ({
+                url: `/connect/${deviceAddress.replaceAll(":", "-")}`,
+                method: "POST"
+            })
         })
     })
 });
@@ -26,4 +32,5 @@ export const {
     useGetDiscoveryStatusQuery,
     useGetDiscoveredDevicesQuery,
     useSetDiscoveryActiveMutation,
+    useConnectDeviceMutation
 } = discoveryApi

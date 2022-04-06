@@ -21,23 +21,33 @@ const DeviceWidget = ({ device, onOpen, ...props }) => (
     divider={<Divider />}
     {...props}
   >
-    <WidgetHeader title={coalesce(device.name, device.deviceClass, device.id)} itemAddress={device.address} onOpen={onOpen} />
+    <WidgetHeader
+      title={coalesce(device.name, device.deviceClass, "[unknown]")}
+      description={device.description}
+      itemAddress={device.address}
+      onOpen={onOpen}
+    />
     <DeviceActionChips device={device} />
     <Box px={2}>{props.children}</Box>
   </VStack>
 )
 
-const WidgetHeader = ({ title, itemAddress, onOpen }) => {
+const WidgetHeader = ({ title, description, itemAddress, onOpen }) => {
   const dispatch = useDispatch();
   const icon = <ChakraIcon icon={IoResize} fontSize="1.2rem" />;
   return (
-    <Flex alignItems="center" px={2} width="100%">
-      <Text fontSize="lg" fontWeight="bold" textAlign="center">{title}</Text>
-      <Spacer />
-      <IconButton variant="ghost" borderRadius="full" aria-label="Full view" icon={icon} onClick={() => {
-        dispatch(setActiveDeviceAddress(itemAddress))
-        onOpen();
-      }} />
+    <Flex flexDir="column" width="100% ">
+      <Flex alignItems="center" width="100%">
+        <Text fontSize="lg" fontWeight="bold" textAlign="center">{title}</Text>
+        <Spacer />
+        <IconButton variant="ghost" borderRadius="full" aria-label="Full view" icon={icon} onClick={() => {
+          dispatch(setActiveDeviceAddress(itemAddress))
+          onOpen();
+        }} />
+      </Flex>
+      {description && description.length > 0 && <Text opacity={0.6}>{
+        description.length < 90 ? description : `${description.substring(0, 90)}...`
+      }</Text>}
     </Flex>
   );
 };

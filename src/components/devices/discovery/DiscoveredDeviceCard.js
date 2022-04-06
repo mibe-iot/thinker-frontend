@@ -1,8 +1,10 @@
 import { Box, Button, Flex, Spacer, Text, VStack } from "@chakra-ui/react";
+import { useConnectDeviceMutation } from "api/services/discoveryApi";
 import { useBackgroundColors, useBorderColors, useTextColors } from "styles/theme/foundations/colors";
 
 
 export const DiscoveredDeviceCard = ({ id, name, address, discoveredAt, rssi, knownDevice }) => {
+    const [connectDevice, { isLoading }] = useConnectDeviceMutation(address);
     return (
         <Flex
             border={1}
@@ -18,7 +20,10 @@ export const DiscoveredDeviceCard = ({ id, name, address, discoveredAt, rssi, kn
                 <Flex flex={1} w="100%" mb={3} alignItems="top">
                     <Text fontSize="2xl" align="start">{name ? name : "[unknown]"}</Text>
                     <Spacer />
-                    <Button variant="outline" size="sm" px={5} borderRadius="full">Connect</Button>
+                    <Button variant="outline" size="sm" px={5} borderRadius="full"
+                        onClick={() => connectDevice(address)}>
+                        Connect
+                    </Button>
                 </Flex>
 
                 <VStack alignItems="start" spacing={0.5}>

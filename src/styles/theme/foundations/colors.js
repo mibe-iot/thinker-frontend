@@ -28,6 +28,14 @@ const colorsExtension = extendTheme(
   withDefaultColorScheme({ colorScheme: "green" })
 );
 
+const useColors = () => {
+  const warning = useColorModeValue("yellow.400", "yellow.400");
+
+  return {
+    warning: warning,
+  };
+};
+
 const useLinkColors = () => {
   const linkColor = useColorModeValue("green.600", "green.200");
   const linkHoverColor = useColorModeValue("green.500", "green.600");
@@ -86,6 +94,7 @@ const useBorderColors = () => {
 
 export {
   colorsExtension,
+  useColors,
   useLinkColors,
   useBackgroundColors,
   useBorderColors,

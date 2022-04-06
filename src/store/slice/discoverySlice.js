@@ -75,6 +75,7 @@ export const discoverySlice = createSlice({
                 state.loadingStatus = IDLE
                 state.isError = true
                 state.error = action.payload
+                state.currentRequestId = undefined
             })
             .addCase(putDiscoveryStatus.pending, (state, action) => {
                 if (state.loadingStatus === IDLE || state.loadingStatus === UNINITIALIZED) {
@@ -98,6 +99,7 @@ export const discoverySlice = createSlice({
                 state.loadingStatus = IDLE
                 state.isError = true
                 state.error = action.payload
+                state.currentRequestId = undefined
             })
     }
 });
