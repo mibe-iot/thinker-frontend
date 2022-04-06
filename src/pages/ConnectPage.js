@@ -1,14 +1,12 @@
 import { WarningIcon } from "@chakra-ui/icons";
-import { FormControl, FormLabel, HStack, Spinner, Stack, Switch, Tooltip, useColorModeValue } from "@chakra-ui/react";
-import { selectDiscoveryStatus, useGetDiscoveredDevicesQuery, useGetDiscoveryStatusQuery, useSetDiscoveryActiveMutation } from "api/services/discoveryApi";
+import { FormControl, FormLabel, HStack, Stack, Switch, Tooltip, useColorModeValue } from "@chakra-ui/react";
+import { useGetDiscoveredDevicesQuery } from "api/services/discoveryApi";
 import { DiscoveredDevices } from "components/devices/discovery/DiscoveredDevices";
 import { ActionPanel } from "components/panel/ActionPanel";
 import { RefreshAction } from "components/panel/actions/RefreshAction";
 import { SpinnerContainer } from "components/spinner/SpinnerContainer";
 import { useCooldown } from "hooks/useCooldown";
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import { setDiscoveryStatus, useDiscoveryStatus } from "store/slice/discoverySlice";
+import { useDiscoveryStatus } from "store/slice/discoverySlice";
 
 export const ConnectPage = () => {
   const { data: isDiscoveryActive, refetch: refetchStatus, isError: isStatusError } = useDiscoveryStatus();
@@ -26,7 +24,7 @@ export const ConnectPage = () => {
         }
         rightSide={
           <HStack gap={4} alignItems="center">
-            <RefreshAction refreshAction={() => {refetchStatus(); refetchDevices();}} refreshHotkeys="Alt+R" title="Refresh devices" />
+            <RefreshAction refreshAction={() => { refetchStatus(); refetchDevices(); }} refreshHotkeys="Alt+R" title="Refresh devices" />
           </HStack>
         }
       />
