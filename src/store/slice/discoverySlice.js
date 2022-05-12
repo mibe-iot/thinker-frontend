@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { IDLE, PENDING, UNINITIALIZED } from "api/LoadingStatus";
-import { buildApiUrl } from "api/thinkerApi";
+import { buildApiUrl } from "api/ThinkerApi";
 import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";

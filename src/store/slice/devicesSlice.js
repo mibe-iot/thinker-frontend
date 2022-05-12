@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 import { IDLE, PENDING, UNINITIALIZED } from "api/LoadingStatus";
-import { buildApiUrl, fetchNdjson } from "api/thinkerApi";
+import { buildApiUrl, fetchNdjson } from "api/ThinkerApi";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
