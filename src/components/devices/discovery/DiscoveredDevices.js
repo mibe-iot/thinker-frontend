@@ -19,8 +19,7 @@ export const DiscoveredDevices = () => {
     !isFetching && !isError ?
       <SimpleGrid w="100%" columns={{ base: 1, md: 2, lg: 3 }} spacing="1.5rem">
         {discoveredDevices
-          // .filter(device => !connectedDevicesIds.includes(device.address))
-          .map((device, i) => <DiscoveredDeviceCard key={device.address} {...device} />)}
+          .map(device => <DiscoveredDeviceCard key={device.address} {...device} />)}
       </SimpleGrid> : <></>
   );
 }

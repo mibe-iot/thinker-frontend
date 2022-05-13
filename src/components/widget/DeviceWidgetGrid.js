@@ -20,7 +20,7 @@ const DeviceWidgetGrid = () => {
   } else if(!isLoading) {
     return (
       <HStack>
-        <Text>No devices were found. Try connect new one: </Text>
+        <Text>No devices were found. Try connect a new one: </Text>
         <Link to="/connect"><Button>Connect device</Button></Link>
       </HStack>
     );

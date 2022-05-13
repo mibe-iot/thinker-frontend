@@ -4,7 +4,7 @@ export const ActionPanel = ({ leftSide, rightSide, ...props }) => (
   <Stack
     align={{ base: "end", md: "start" }}
     justifyContent="space-between"
-    direction={{ base: "column", "md": "row" }}
+    direction="row"
     {...props}
   >
     {leftSide && (

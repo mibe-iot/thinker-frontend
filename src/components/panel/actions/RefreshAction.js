@@ -7,7 +7,6 @@ export const RefreshAction = ({ refreshAction, refreshHotkeys, title, isLoading,
   return (
     <HStack spacing="0.2rem">
       <FormControl>
-        <FormLabel display={{ base: "display", md: "none" }} mb={{ base: 1, md: 0 }}>Refresh</FormLabel>
         <RefreshButton
           focusable={!isLoading && isHotkeyPressed(refreshHotkeys)}
           border="1px"
