@@ -65,6 +65,7 @@ const useBackgroundColors = () => {
   const footerBg = useColorModeValue("gray.600", "gray.900");
   const cardFooterBg = useColorModeValue("gray.200", "gray.600");
   const goodBg = useColorModeValue("green.200", "green.200");
+  const actionHover = useColorModeValue("gray.100" , "gray.700");
 
   return {
     default: mainBg,
@@ -73,12 +74,13 @@ const useBackgroundColors = () => {
     good: goodBg,
     subNav: subNavBg,
     footer: footerBg,
+    actionHover: actionHover,
   };
 };
 
 const useBorderColors = () => {
   const navBorder = useColorModeValue("gray.200", "gray.600");
-  const mainBorder = useColorModeValue("gray.200", "gray.900");
+  const mainBorder = useColorModeValue("gray.200", "gray.700");
   const footerBorder = useColorModeValue("gray.200", "gray.900");
   const widgetBorder = useColorModeValue("gray.300", "gray.600");
   const lightBorder = useColorModeValue("gray.300", "gray.500")

@@ -1,12 +1,13 @@
 import { Box, Button, Flex, FormLabel, Grid, GridItem, Heading, Link } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import React from "react";
+import { getAnchorFromString } from "../SettingsPage";
 
 
 export const SettingsSection = ({ name, initialValues, onSubmit, labelsToFields }) => {
-    const anchor = name.replace(" ", "_");
+    const anchor = getAnchorFromString(name);
     return (
-        <Box direction="column" w="100%" my="2rem" pe="4rem">
+        <Box direction="column" w="100%" my="2rem" pe={{ base: 0, md: "4rem" }}>
             <Flex role="group" pb="1.5rem">
                 <Heading id={anchor} as="h3" me={2} fontSize="3xl" alignSelf="start">{name}</Heading>
                 <Link opacity={0} _groupHover={{ opacity: 1 }} fontSize="3xl" href={"#" + anchor}>#</Link>
@@ -24,7 +25,7 @@ export const SettingsSection = ({ name, initialValues, onSubmit, labelsToFields 
                                 ))
                             }
                         </Grid>
-                        <Flex mt={12} justifyContent="end"><Button px="3rem" type="submit">Save</Button></Flex>
+                        <Flex mt={12} justifyContent="end"><Button type="submit">Save</Button></Flex>
                     </Form>
                 )
                 }

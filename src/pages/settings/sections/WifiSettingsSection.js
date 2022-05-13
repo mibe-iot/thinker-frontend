@@ -4,7 +4,7 @@ import { Field } from "formik"
 import { SettingsSection } from "./SettingsSection"
 
 
-export const WifiSettingsSection = (sectionName) => {
+export const WifiSettingsSection = ({sectionName}) => {
     const sectionInputs = {
         "Wi-Fi network name":
             <Field
