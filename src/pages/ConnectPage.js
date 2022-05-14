@@ -1,4 +1,5 @@
-import { FormControl, FormLabel, HStack, Stack, Switch, useToast } from "@chakra-ui/react";
+import { FormControl, FormLabel, HStack, Link, Stack, Switch, Text, Tooltip, useToast } from "@chakra-ui/react";
+import { APP_SETTINGS_TYPE, useGetSettingsStatusQuery } from "api/services/appSettingsApi";
 import { useGetDiscoveredDevicesQuery } from "api/services/discoveryApi";
 import { DiscoveredDevices } from "components/devices/discovery/DiscoveredDevices";
 import { ActionPanel } from "components/panel/ActionPanel";
@@ -6,10 +7,31 @@ import { RefreshAction } from "components/panel/actions/RefreshAction";
 import { SpinnerContainer } from "components/spinner/SpinnerContainer";
 import { useCooldown } from "hooks/useCooldown";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useFetchDevicesQuery } from "store/slice/devicesSlice";
 import { useDiscoveryStatus } from "store/slice/discoverySlice";
 
 export const ConnectPage = () => {
+  const { data: settingsStatuses, isLoading: isGetStatusLoading } = useGetSettingsStatusQuery();
+  const wifiSettingsConfigured = settingsStatuses && !!settingsStatuses[APP_SETTINGS_TYPE];
+  const configureWifiTip = !isGetStatusLoading && wifiSettingsConfigured ? "" : "Please, configure Wi-Fi settings";
+  const toast = useToast();
+  let navigate = useNavigate();
+  useEffect(() => {
+    if (!toast.isActive("wifi-config-toast") && !isGetStatusLoading && !wifiSettingsConfigured)
+      toast({
+        position: "top",
+        id: "wifi-config-toast",
+        title: "Wi-FI configuration missing",
+        description: <Link onClick={() => { toast.close("wifi-config-toast"); navigate("/settings") }}><Text textDecoration="underline">{configureWifiTip}</Text></Link>,
+        duration: 25000,
+        isClosable: true,
+        status: "warning",
+      })
+  },
+    [wifiSettingsConfigured, isGetStatusLoading, configureWifiTip, navigate, toast]
+  )
+
   const { data: isDiscoveryActive, refetch: refetchStatus, isError: isStatusError } = useDiscoveryStatus();
   const { data: discoveredDevices, isLoading, refetch: refetchDiscoveredDevices, isError: isDevicesError } = useGetDiscoveredDevicesQuery();
   const { refetch: refetchDevices } = useFetchDevicesQuery();
@@ -23,13 +45,18 @@ export const ConnectPage = () => {
           <HStack gap={4} alignItems="center">
             <FormControl display='flex' alignItems='center'>
               <FormLabel htmlFor="discoverySwitch" mb={1}>Activate discovery</FormLabel>
-              <DiscoverySwitch />
+              <DiscoverySwitch tooltip={configureWifiTip} isDisabled={!wifiSettingsConfigured} />
             </FormControl>
           </HStack>
         }
         rightSide={
           <HStack gap={4} alignItems="center">
-            <RefreshAction refreshAction={() => { refetchStatus(); refetchAllDevices(); }} refreshHotkeys="Alt+R" title="Refresh devices" />
+            <RefreshAction
+              tooltip={configureWifiTip}
+              isDisabled={true}
+              refreshAction={() => { refetchStatus(); refetchAllDevices(); }}
+              refreshHotkeys="Alt+R" title="Refresh devices"
+            />
           </HStack>
         }
       />
@@ -43,7 +70,7 @@ export const ConnectPage = () => {
   );
 };
 
-const DiscoverySwitch = () => {
+const DiscoverySwitch = ({ isDisabled, tooltip }) => {
 
   const toast = useToast();
   const [isCooledDown, startCooldown] = useCooldown(500);
@@ -53,15 +80,19 @@ const DiscoverySwitch = () => {
     updateDiscoveryStatus
   } = useDiscoveryStatus(() => showErrorToast(toast));
 
-  return <HStack>
-    <Switch
-      id="discoverySwitch"
-      isChecked={discoveryStatus}
-      size="lg"
-      isDisabled={isLoading || !isCooledDown}
-      onChange={(event) => { startCooldown(); updateDiscoveryStatus(!discoveryStatus) }}
-    />
-  </HStack>
+  return (
+    <Tooltip label={tooltip} placement="top">
+      <span> { /* To prevent tooltip bug */}
+        <Switch
+          id="discoverySwitch"
+          isChecked={discoveryStatus}
+          size="lg"
+          isDisabled={isDisabled || isLoading || !isCooledDown}
+          onChange={(event) => { startCooldown(); updateDiscoveryStatus(!discoveryStatus) }}
+        />
+      </span>
+    </Tooltip>
+  )
 }
 
 const showErrorToast = (toast) => {
