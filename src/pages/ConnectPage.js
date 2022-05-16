@@ -12,13 +12,13 @@ import { useFetchDevicesQuery } from "store/slice/devicesSlice";
 import { useDiscoveryStatus } from "store/slice/discoverySlice";
 
 export const ConnectPage = () => {
-  const { data: settingsStatuses, isLoading: isGetStatusLoading } = useGetSettingsStatusQuery();
+  const { data: settingsStatuses, isLoading: isGetStatusLoading, isSuccess: isGetStatusSuccess } = useGetSettingsStatusQuery();
   const wifiSettingsConfigured = settingsStatuses && !!settingsStatuses[APP_SETTINGS_TYPE];
   const configureWifiTip = !isGetStatusLoading && wifiSettingsConfigured ? "" : "Please, configure Wi-Fi settings";
   const toast = useToast();
   let navigate = useNavigate();
   useEffect(() => {
-    if (!toast.isActive("wifi-config-toast") && !isGetStatusLoading && !wifiSettingsConfigured)
+    if (!toast.isActive("wifi-config-toast") && isGetStatusSuccess && !isGetStatusLoading && !wifiSettingsConfigured)
       toast({
         position: "top",
         id: "wifi-config-toast",
@@ -53,7 +53,7 @@ export const ConnectPage = () => {
           <HStack gap={4} alignItems="center">
             <RefreshAction
               tooltip={configureWifiTip}
-              isDisabled={true}
+              isDisabled={!wifiSettingsConfigured}
               refreshAction={() => { refetchStatus(); refetchAllDevices(); }}
               refreshHotkeys="Alt+R" title="Refresh devices"
             />

@@ -13,17 +13,21 @@ export const appSettingsApi = createApi({
       getSettingsByType: builder.query({
         query: ({type}) => ({ method: "GET", url: `/${type}` })
       }),
+      getAppSettings: builder.query({
+        query: () => ({ method: "GET", url: "" })
+      }),
       updateMailSettings: builder.mutation({
-        query: ({...data }) => ({ method: "POST", url: `$/${MAIL_SETTINGS_TYPE}`, body: { ...data } })
+        query: ({...data }) => ({ method: "POST", url: `/${MAIL_SETTINGS_TYPE}`, body: { ...data } })
       }),
       updateAppSettings: builder.mutation({
-        query: ({...data }) => ({ method: "POST", url: `$/${APP_SETTINGS_TYPE}`, body: { ...data } })
+        query: ({...data }) => ({ method: "POST", url: "", body: { ...data } })
       })
     })
   });
   
   export const { 
     useGetSettingsStatusQuery, 
+    useGetAppSettingsQuery,
     useGetSettingsByTypeQuery, 
     useUpdateMailSettingsMutation, 
     useUpdateAppSettingsMutation 

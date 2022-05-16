@@ -1,10 +1,15 @@
 import { Input } from "@chakra-ui/react"
 import { WIFI_PASSWORD_MIN_LENGTH, WIFI_SSID_MIN_LENGTH } from "api/contants"
+import { APP_SETTINGS_TYPE, useGetAppSettingsQuery, useGetSettingsByTypeQuery, useUpdateAppSettingsMutation } from "api/services/appSettingsApi"
 import { Field } from "formik"
+import { useEffect } from "react"
+import { coalesce, coalesceOrEmpty } from "utils/utils"
 import { SettingsSection } from "./SettingsSection"
 
 
-export const WifiSettingsSection = ({sectionName}) => {
+export const WifiSettingsSection = ({ sectionName }) => {
+    const { data: wifiSettings, isLoading } = useGetAppSettingsQuery();
+    const [updateAppSettings, { isError: isUpdateError }] = useUpdateAppSettingsMutation();
     const sectionInputs = {
         "Wi-Fi network name":
             <Field
@@ -25,11 +30,27 @@ export const WifiSettingsSection = ({sectionName}) => {
                 minLength={WIFI_PASSWORD_MIN_LENGTH}
             />
     }
+    const initialValues = {
+        ssid: wifiSettings?.ssid,
+        password: wifiSettings?.password
+    }
+    console.log(wifiSettings)
+    // useEffect(() => {
+    //     if( !isLoading) {
+    //         sectionInputs["Wi-Fi network name"].value = wifiSettings.ssid
+    //     }
+    // }, [isLoading])
     return (
-        <SettingsSection
+        isLoading 
+        ? <></>
+        : <SettingsSection
             name={sectionName}
-            onSubmit={(values, { }) => console.log(values)}
-            initialValues={{ "ssid": "", password: "" }}
+            onSubmit={(values, { }) => updateAppSettings({
+                ssid: values.ssid.split(""),
+                password: values.password.split(""),
+                type: APP_SETTINGS_TYPE
+            })}
+            initialValues={initialValues}
             labelsToFields={sectionInputs}
         />
     )
