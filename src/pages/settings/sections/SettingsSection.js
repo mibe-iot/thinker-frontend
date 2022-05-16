@@ -25,7 +25,7 @@ export const SettingsSection = ({ name, initialValues, onSubmit, labelsToFields 
                                 ))
                             }
                         </Grid>
-                        <Flex mt={12} justifyContent="end"><Button type="submit">Save</Button></Flex>
+                        <Flex mt={12} justifyContent="end"><Button type="submit">Update</Button></Flex>
                     </Form>
                 )
                 }

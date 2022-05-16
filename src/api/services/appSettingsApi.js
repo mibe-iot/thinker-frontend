@@ -17,7 +17,7 @@ export const appSettingsApi = createApi({
         query: () => ({ method: "GET", url: "" })
       }),
       updateMailSettings: builder.mutation({
-        query: ({...data }) => ({ method: "POST", url: `/${MAIL_SETTINGS_TYPE}`, body: { ...data } })
+        query: ({...data }) => ({ method: "POST", url: "/mail", body: { ...data } })
       }),
       updateAppSettings: builder.mutation({
         query: ({...data }) => ({ method: "POST", url: "", body: { ...data } })

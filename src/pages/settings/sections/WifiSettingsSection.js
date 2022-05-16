@@ -34,12 +34,6 @@ export const WifiSettingsSection = ({ sectionName }) => {
         ssid: wifiSettings?.ssid,
         password: wifiSettings?.password
     }
-    console.log(wifiSettings)
-    // useEffect(() => {
-    //     if( !isLoading) {
-    //         sectionInputs["Wi-Fi network name"].value = wifiSettings.ssid
-    //     }
-    // }, [isLoading])
     return (
         isLoading 
         ? <></>
