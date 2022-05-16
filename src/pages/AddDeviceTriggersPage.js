@@ -1,5 +1,5 @@
-import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Button, Center, Divider, Flex, Heading, SimpleGrid, Text, Tooltip, VStack } from "@chakra-ui/react";
-import { useCreateTriggersMutation, useGetAllHooksQuery } from "api/services/hooksApi";
+import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Badge, Box, Button, Center, Divider, Flex, Heading, SimpleGrid, Text, Tooltip, VStack } from "@chakra-ui/react";
+import { useCreateTriggersMutation, useGetAllHooksQuery, useGetDeviceTriggersQuery } from "api/services/hooksApi";
 import { RefreshButton } from "components/button/RefreshButton";
 import { ActionPanel } from "components/panel/ActionPanel";
 import { SpinnerContainer } from "components/spinner/SpinnerContainer";
@@ -7,47 +7,55 @@ import { PageTitle } from "components/text/PageTitle";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useFetchDevicesQuery } from "store/slice/devicesSlice";
+import { HookCard } from "./hooks/HookCard";
 
 
 
 export const AddDeviceTriggersPage = () => {
-    const { data: devices, refetch, isLoading: isDeviceLoading } = useFetchDevicesQuery();
     const { deviceId } = useParams();
+    const { data: devices, refetch, isLoading: isDeviceLoading } = useFetchDevicesQuery();
+    const { data: triggers, isLoading: isTriggersLoading } = useGetDeviceTriggersQuery(deviceId);
+    const { data: hooks, isHooksLoading } = useGetAllHooksQuery();
     const tmp = Object.values(devices).filter(device => device.id === deviceId);
     const device = tmp.length > 0 ? tmp[0] : undefined
     return (
-        <SpinnerContainer isLoading={isDeviceLoading}>
-            {device
-                ? <Flex direction="column" width="100%">
-                    <ActionPanel
-                        leftSide={<PageTitle>Hooks</PageTitle>}
-                        rightSide={
-                            <RefreshButton onClick={refetch} isLoading={isDeviceLoading} />
-                        }
-                    />
-                    <Accordion allowToggle mb={4}>
-                        <AccordionItem border={0}>
-                            <AccordionButton>
-                                <Box flex='1' textAlign='left'>
-                                    <Heading as="h2" size="lg">Create new device reports triggers</Heading>
-                                </Box>
-                                <AccordionIcon />
-                            </AccordionButton>
-                            <AccordionPanel pb={4}>
-                                <CreateTriggersForm device={device} />
-                            </AccordionPanel>
-                        </AccordionItem>
-                    </Accordion>
-                    <Divider />
-                </Flex >
-                : <Center width="100%"><Heading>404 Error: Device not found by id={deviceId}</Heading></Center>
-            }
-        </SpinnerContainer>
+        <VStack width="100%" spacing={16}>
+            <SpinnerContainer isLoading={isDeviceLoading || isHooksLoading}>
+                {device
+                    ? <Flex direction="column" width="100%">
+                        <ActionPanel
+                            leftSide={<PageTitle>Hooks</PageTitle>}
+                            rightSide={
+                                <RefreshButton onClick={refetch} isLoading={isDeviceLoading} />
+                            }
+                        />
+                        <Accordion allowToggle mb={4}>
+                            <AccordionItem border={0}>
+                                <AccordionButton>
+                                    <Box flex='1' textAlign='left'>
+                                        <Heading as="h2" size="lg">Create new device reports triggers</Heading>
+                                    </Box>
+                                    <AccordionIcon />
+                                </AccordionButton>
+                                <AccordionPanel pb={4}>
+                                    <CreateTriggersForm device={device} />
+                                </AccordionPanel>
+                            </AccordionItem>
+                        </Accordion>
+                        <Divider />
+                    </Flex >
+                    : <Center width="100%"><Heading>404 Error: Device not found by id={deviceId}</Heading></Center>
+                }
+            </SpinnerContainer>
+            <SpinnerContainer isLoading={isTriggersLoading || isHooksLoading}>
+                <TriggersAndHooks triggers={triggers} hooks={hooks} />
+            </SpinnerContainer>
+        </VStack>
     )
 }
 
 const CreateTriggersForm = ({ device }) => {
-    const [createTriggers, { }] = useCreateTriggersMutation();
+    const [createTriggers] = useCreateTriggersMutation();
     const { data: hooks } = useGetAllHooksQuery();
     const [selectedTypes, setSelectedTypes] = useState({});
     const [selectedHooks, setSelectedHooks] = useState({});
@@ -144,5 +152,36 @@ const CreateTriggersForm = ({ device }) => {
             </SimpleGrid>
             <Flex mt={12}><Box flex="1"></Box><Button isDisabled={!isSaveActive} px={24} onClick={onSave}>Save</Button></Flex>
         </>
+    )
+}
+
+const TriggersAndHooks = ({ triggers, hooks }) => {
+    if (!triggers || !hooks) return <></>
+    const grouped = triggers.reduce((group, trigger) => {
+        const { reportType } = trigger;
+        group[reportType] = group[reportType] ?? [];
+        group[reportType].push(trigger);
+        return group;
+    }, {});
+    return (
+        <VStack align="start">
+            <Heading ps={2} as="h2" fontSize="xl" mb={5}>What hooks are called</Heading>
+            {
+                Object.entries(grouped).map(([type, typeTriggers]) => (
+                    <VStack key={type} align="start">
+                        <Flex direction="row" ps={2} alignItems="center">
+                            <Text>When report type is</Text>
+                            <Badge ms={3} px={2} borderRadius="full">{type}</Badge>
+                        </Flex>
+                        <SimpleGrid w="100%" columns={{ base: 1, md: 2, lg: 3, xl: 4 }} spacing="1.5rem">
+                            {typeTriggers.map(trigger => (
+                                <HookCard key={trigger.id} hook={hooks.filter(hook => hook.id === trigger.hookId)[0]} />
+                            ))}
+                        </SimpleGrid>
+
+                    </VStack>
+                ))
+            }
+        </VStack>
     )
 }
