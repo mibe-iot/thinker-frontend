@@ -6,5 +6,9 @@ export const navLinks = [
   {
     title: "Connect",
     to: "/connect"
+  },
+  {
+    title: "Hooks",
+    to: "/hooks"
   }
 ];

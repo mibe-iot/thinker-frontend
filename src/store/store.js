@@ -5,6 +5,7 @@ import { discoveryApi } from "api/services/discoveryApi";
 import { discoveryReducer } from "./slice/discoverySlice";
 import { devicesApi } from "api/services/devicesApi";
 import { appSettingsApi } from "api/services/appSettingsApi";
+import { hooksApi } from "api/services/hooksApi";
 
 const rootReducer = combineReducers({
   widgets: widgetsReducer,
@@ -13,10 +14,11 @@ const rootReducer = combineReducers({
   [devicesApi.reducerPath]: devicesApi.reducer,
   [discoveryApi.reducerPath]: discoveryApi.reducer,
   [appSettingsApi.reducerPath]: appSettingsApi.reducer,
+  [hooksApi.reducerPath]: hooksApi.reducer
 });
 
 export const store = configureStore({
   reducer: rootReducer,
   middleware: getDefaultMiddleware =>
-    getDefaultMiddleware().concat(devicesApi.middleware, discoveryApi.middleware, appSettingsApi.middleware)
+    getDefaultMiddleware().concat(devicesApi.middleware, discoveryApi.middleware, appSettingsApi.middleware, hooksApi.middleware)
 });

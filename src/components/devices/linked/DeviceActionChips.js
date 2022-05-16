@@ -1,5 +1,6 @@
 import { Button, Flex } from "@chakra-ui/react";
 import { useExecuteActionMutation } from "api/services/devicesApi";
+import { useState } from "react";
 
 
 export const DeviceActionChips = ({ device }) => {
@@ -32,3 +33,32 @@ const DeviceActionChip = ({ deviceId, actionName }) => {
   );
 }
 
+export const DeviceSelectableActionChip = ({ actionName , onClick, initialSelected}) => {
+  const [isSelected, setSelected] = useState(!!initialSelected());
+  return (
+    <DeviceActionChipButton
+      colorScheme={isSelected ? "green" : "gray" }
+      variant="solid"
+      name={actionName}
+      onClick={() => {onClick(); setSelected(!isSelected)}}
+    />
+  );
+}
+
+const DeviceActionChipButton = ({name, onClick, ...props}) => {
+  return (
+    <Button
+      p={3}
+      opacity={0.8}
+      m={0.5}
+      size="xs"
+      variant="outline"
+      textAlign="center"
+      borderRadius="full"
+      onClick={onClick}
+      {...props}
+    >
+      {name}
+    </Button>
+  );
+}
