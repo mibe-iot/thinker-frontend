@@ -9,6 +9,9 @@ export const hooksApi = createApi({
         }),
         createEmailHook: builder.mutation({
             query: ({...hook}) => ({ method: "POST", url:  "/hooks/sendEmail", body: {...hook}})
+        }),
+        createTriggers: builder.mutation({
+            query: ({deviceId, ...triggersAndHooks}) => ({ method: "POST", url: `/triggers/${deviceId}`, body: {...triggersAndHooks}})
         })
     })
 });
@@ -16,5 +19,6 @@ export const hooksApi = createApi({
 
 export const {
     useGetAllHooksQuery,
-    useCreateEmailHookMutation
+    useCreateEmailHookMutation,
+    useCreateTriggersMutation
 } = hooksApi
