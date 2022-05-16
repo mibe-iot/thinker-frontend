@@ -15,7 +15,7 @@ function App() {
           <Route path={"connect"} element={<ConnectPage />} />
           <Route path={"settings"} element={<SettingsPage />} />
           <Route path={"hooks"} element={<HooksPage />} />
-          <Route path={"device/:deviceId/triggers"} element={<AddDeviceTriggersPage />} />
+          <Route path={"devices/:deviceId/triggers"} element={<AddDeviceTriggersPage />} />
         </Route>
       </Routes>
     </Router>

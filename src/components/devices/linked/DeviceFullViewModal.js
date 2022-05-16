@@ -1,5 +1,5 @@
 import { ChevronLeftIcon, ChevronRightIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
-import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Badge, border, Box, Button, Center, Divider, Flex, FormControl, FormLabel, HStack, IconButton, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, SimpleGrid, Spacer, Stack, Table, TableCaption, TableContainer, Tbody, Td, Text, Textarea, Tfoot, Th, Thead, Tr, useDisclosure, VStack } from "@chakra-ui/react";
+import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Badge, border, Box, Button, Center, Divider, Flex, FormControl, FormLabel, HStack, IconButton, Input, Link, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, SimpleGrid, Spacer, Stack, Table, TableCaption, TableContainer, Tbody, Td, Text, Textarea, Tfoot, Th, Thead, Tr, useDisclosure, VStack } from "@chakra-ui/react";
 import { DEVICE_DESCRIPTION_LENGTH } from "api/contants";
 import { useDeleteDeviceMutation, useGetReportsPageQuery, usePatchDeviceMutation } from "api/services/devicesApi";
 import { RefreshButton } from "components/button/RefreshButton";
@@ -9,8 +9,9 @@ import { Field, Form, Formik } from "formik";
 import { usePagination } from "hooks/usePagination";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { useFetchDevicesQuery } from "store/slice/devicesSlice";
-import { useBorderColors } from "styles/theme/foundations/colors";
+import { useBorderColors, useColors } from "styles/theme/foundations/colors";
 import { coalesce } from "utils/utils";
 
 export const DeviceFullViewModal = ({ isOpen, onOpen, onClose: closeModal }) => {
@@ -111,6 +112,7 @@ export const DeviceFullViewModal = ({ isOpen, onOpen, onClose: closeModal }) => 
 
 
 const DeviceModalAdditionalData = ({ device }) => {
+    let navigate = useNavigate();
     return (
         <Flex flexDirection="column" py={2}>
             <Text fontSize="md" fontWeight="semibold" mb={2}>Device data:</Text>
@@ -127,6 +129,7 @@ const DeviceModalAdditionalData = ({ device }) => {
                     <FormLabel htmlFor="status">Status</FormLabel>
                     <Input value={device.status} variant="filled" id="status" name="status" isReadOnly />
                 </FormControl>
+                <Link color={useColors().warning} onClick={() => navigate(`/devices/${device.id}/triggers`)}>View device triggers</Link>
                 <VStack align="start">
                     {device.reportTypes &&
                         <>

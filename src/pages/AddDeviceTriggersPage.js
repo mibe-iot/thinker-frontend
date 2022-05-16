@@ -14,8 +14,8 @@ import { HookCard } from "./hooks/HookCard";
 export const AddDeviceTriggersPage = () => {
     const { deviceId } = useParams();
     const { data: devices, refetch, isLoading: isDeviceLoading } = useFetchDevicesQuery();
-    const { data: triggers, isLoading: isTriggersLoading } = useGetDeviceTriggersQuery(deviceId);
-    const { data: hooks, isHooksLoading } = useGetAllHooksQuery();
+    const { data: triggers, isLoading: isTriggersLoading, refetch: refetchTriggers } = useGetDeviceTriggersQuery(deviceId);
+    const { data: hooks, isHooksLoading, refetch: refetchHooks } = useGetAllHooksQuery();
     const tmp = Object.values(devices).filter(device => device.id === deviceId);
     const device = tmp.length > 0 ? tmp[0] : undefined
     return (
@@ -26,7 +26,9 @@ export const AddDeviceTriggersPage = () => {
                         <ActionPanel
                             leftSide={<PageTitle>Hooks</PageTitle>}
                             rightSide={
-                                <RefreshButton onClick={refetch} isLoading={isDeviceLoading} />
+                                <RefreshButton 
+                                onClick={() => {refetch(); refetchTriggers(); refetchHooks()}} 
+                                isLoading={isDeviceLoading || isTriggersLoading || isHooksLoading} />
                             }
                         />
                         <Accordion allowToggle mb={4}>
@@ -164,7 +166,7 @@ const TriggersAndHooks = ({ triggers, hooks }) => {
         return group;
     }, {});
     return (
-        <VStack align="start">
+        <VStack align="start" pb={4}>
             <Heading ps={2} as="h2" fontSize="xl" mb={5}>What hooks are called</Heading>
             {
                 Object.entries(grouped).map(([type, typeTriggers]) => (
