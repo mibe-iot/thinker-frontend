@@ -13,49 +13,51 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useFetchDevicesQuery } from "store/slice/devicesSlice";
 import { useBorderColors, useColors } from "styles/theme/foundations/colors";
-import { coalesce } from "utils/utils";
+import { coalesce, coalesceOrEmpty } from "utils/utils";
 
 export const DeviceFullViewModal = ({ isOpen, onOpen, onClose: closeModal }) => {
-    const [ shouldClose, setShouldClose ] = useState(false);
+    const [isSaving, setSaving] = useState(false);
     const activeDeviceAddress = useSelector(state => state.devices.activeDeviceAddress);
     const { data: entities } = useFetchDevicesQuery();
     const [updateDevice, { isLoading, isError, isSuccess, error }] = usePatchDeviceMutation(activeDeviceAddress);
     const [deleteDevice, { isLoading: isDeleting }] = useDeleteDeviceMutation();
     const [isEditMode, setEditMode] = useState(false);
     const initialRef = useRef();
-    
+    const loading = isLoading || isDeleting;
 
     useEffect(() => {
-        console.log("************************")
-        console.log(shouldClose)
-        console.log(isLoading)
-        console.log(isError)
-        console.log(isSuccess)
-        if(!isLoading && !isError && isSuccess && shouldClose) {
-            setShouldClose(false)
+        if (isSaving && !loading && !isError && isSuccess) {
+            setSaving(false)
             closeModal();
+        } else if (isSaving && !loading && isError) {
+            setSaving(false)
         }
-    }, [isLoading])
+    }, [loading, isSaving])
 
     if (!isOpen) {
         return <></>
-    } else if (shouldClose) {
+    } else if (loading && isSaving) {
         return <SpinnerContainer isLoading={true}></SpinnerContainer>
     }
 
     const device = entities[activeDeviceAddress]
-    const name = coalesce(device.name, "");
-    const description = coalesce(device.description, "");
-    const onClose = () => { 
+    const name = coalesceOrEmpty(device.name, "");
+    const description = coalesceOrEmpty(device.description, "");
+    const onClose = () => {
         setEditMode(false);
-        setShouldClose(true);
+        setSaving(true);
+    }
+
+    const close = () => {
+        setEditMode(false);
+        closeModal();
     }
     const SaveButton = <Button mr={3} type="submit" isDisabled={!isEditMode}>Save</Button>
     return (
 
         <Modal
             isOpen={isOpen}
-            onClose={onClose}
+            onClose={close}
             initialFocusRef={initialRef}
             size="6xl"
         >
@@ -118,7 +120,7 @@ export const DeviceFullViewModal = ({ isOpen, onOpen, onClose: closeModal }) => 
                             </ModalBody>
                             <ModalFooter>
                                 {SaveButton}
-                                <Button ref={initialRef} variant="outline" onClick={onClose}>Cancel</Button>
+                                <Button ref={initialRef} variant="outline" onClick={close}>Cancel</Button>
                             </ModalFooter>
                         </ModalContent>
                     </Form>
@@ -233,7 +235,8 @@ const ReportItem = ({ number, report }) => {
     return (
         <Tr>
             <Td><Flex alignItems="center">{number}<Badge ms={2} px={2} borderRadius="full">{report.reportType}</Badge></Flex></Td>
-            <Td>{new Date(report.dateTimeCreated).toLocaleDateString("ru-RU", { year: "numeric", month: "numeric", day: "numeric" })}</Td>
+            <Td>{new Date(report.dateTimeCreated).toLocaleDateString("ru-RU",
+                { year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric" })}</Td>
             <Td>{<Flex flexDirection="column">{reportData}</Flex>}</Td>
         </Tr>
     )

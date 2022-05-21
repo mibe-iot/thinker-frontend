@@ -17,8 +17,8 @@ export const HookCard = ({ hook, refresh }) => {
             boxSizing="fitContent"
             divider={<Divider />}
         >
-            <Flex direction="row">
-                <Text fontSize="lg" fontWeight="semibold">Name: {coalesce(hook.name, "[None]")}</Text>
+            <Flex width="100%" direction="row">
+                <Text flexGrow={1} fontSize="lg" fontWeight="semibold">Name: {coalesce(hook.name, "[None]")}</Text>
                 <DeleteButton onClick={() => { deleteHook(hook.id); delay(1, refresh()) }} />
             </Flex>
             <Text>Type: {coalesce(hook.type, "[None]")}</Text>
