@@ -15,4 +15,4 @@ FROM nginx:1.21
 
 COPY --from=build-stage /app/build/ /var/www/thinker/html
 
-COPY --from=build-stage /nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build-stage /app/nginx.conf /etc/nginx/conf.d/default.conf
