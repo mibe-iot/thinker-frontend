@@ -1,8 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
+import { BACKEND_URL } from "api/contants";
 
 export const discoveryApi = createApi({
     reducerPath: "discoveryApi",
-    baseQuery: fetchBaseQuery({ baseUrl: "/api/discovery" }),
+    baseQuery: fetchBaseQuery({ baseUrl: `${BACKEND_URL}/api/discovery` }),
     endpoints: builder => ({
         getDiscoveryStatus: builder.query({
             query: () => ({ url: "/status" }),

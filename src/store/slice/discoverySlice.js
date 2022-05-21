@@ -23,15 +23,18 @@ const getDiscoveryStatus = createAsyncThunk(
 
 const putDiscoveryStatus = createAsyncThunk(
     "discovery/status/put",
-    async (activateDiscovery, { getState, requestId, dispatch, rejectWithValue }) => {
+    async ({isActivateDiscovery, doOnError}, { getState, requestId, dispatch, rejectWithValue }) => {
         const { currentRequestId, loadingStatus } = getState().discovery
         if (loadingStatus !== PENDING || currentRequestId !== requestId) {
             return
         }
 
-        const url = buildApiUrl("/discovery/status", { setActive: activateDiscovery });
+        const url = buildApiUrl("/discovery/status", { setActive: isActivateDiscovery });
         const discoveryStatus = await axios.post(url)
-            .catch(error => rejectWithValue(error.message));
+            .catch(error => {
+                rejectWithValue(error.message);
+                doOnError();
+            });
         dispatch(setDiscoveryStatus(discoveryStatus.data.isActive))
     }
 )
@@ -104,10 +107,11 @@ export const discoverySlice = createSlice({
     }
 });
 
-export const useDiscoveryStatus = () => {
+export const useDiscoveryStatus = (onErrorCallback) => {
     const { discoveryStatus, loadingStatus, isError, error } = useSelector(state => state.discovery);
     const dispatch = useDispatch();
     useEffect(() => dispatch(getDiscoveryStatus()), []);
+
     return {
         data: discoveryStatus,
         isLoading: loadingStatus === PENDING,
@@ -115,7 +119,10 @@ export const useDiscoveryStatus = () => {
         isError: isError,
         error: error,
         refetch: () => dispatch(getDiscoveryStatus()),
-        updateDiscoveryStatus: (value) => dispatch(putDiscoveryStatus(value))
+        updateDiscoveryStatus: (value) => dispatch(putDiscoveryStatus({
+            isActivateDiscovery: value,
+            doOnError: onErrorCallback
+        }))
     }
 }
 

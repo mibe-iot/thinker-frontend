@@ -1,24 +1,16 @@
 import {
-  Box,
   Collapse,
-  Flex,
-  Stack,
-  Text,
-  useColorModeValue,
-  useDisclosure
+  Flex, useDisclosure
 } from "@chakra-ui/react";
-import { LogoLink } from "components/link/LogoLink";
-import { Link } from "components/link/Link";
+import { SettingsButton } from "components/button/SettingsButton";
 import { ThemeToggleButton } from "components/button/ThemeToggleButton";
-import { MobileNav, MobileNavBurger } from "./MobileNav";
-import { DesktopNav } from "./DesktopNav";
+import { LogoLink } from "components/link/LogoLink";
 import {
-  useLinkColors,
   useBackgroundColors,
-  useBorderColors,
-  useTextColors
+  useBorderColors
 } from "styles/theme/foundations/colors";
-import { appLinks } from "components/link/TextLink";
+import { DesktopNav } from "./DesktopNav";
+import { MobileNav, MobileNavBurger } from "./MobileNav";
 
 export const NavBar = () => {
   const { isOpen, onToggle } = useDisclosure();
@@ -44,6 +36,7 @@ export const NavBar = () => {
             <DesktopNav />
           </Flex>
           <Flex flex={{ base: "auto" }} justify={{ base: "end" }}>
+            <SettingsButton />
             <ThemeToggleButton />
             <MobileNavBurger
               display={{ base: "flex", md: "none" }}

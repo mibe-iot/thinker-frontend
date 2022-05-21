@@ -1,17 +1,28 @@
-import { Box, Button, Flex, Spacer, Text, VStack } from "@chakra-ui/react";
+import { Box, Button, Center, Flex, Spacer, Text, VStack } from "@chakra-ui/react";
 import { useConnectDeviceMutation } from "api/services/discoveryApi";
+import { SpinnerContainer } from "components/spinner/SpinnerContainer";
+import { useState } from "react";
 import { useBackgroundColors, useBorderColors, useTextColors } from "styles/theme/foundations/colors";
 
 
-export const DiscoveredDeviceCard = ({ id, name, address, discoveredAt, rssi, knownDevice }) => {
-    const [connectDevice, { isLoading }] = useConnectDeviceMutation(address);
+export const DiscoveredDeviceCard = ({ id, name, address, discoveredAt, rssi, knownDevice, refresh }) => {
+    const [connectDevice] = useConnectDeviceMutation(address);
+    const widgetBorderColor = useBorderColors().widget;
+    const [isLoading, setLoading] = useState(false);
+
+    if (isLoading) {
+        return <Center height="100%" width="100%">
+            <SpinnerContainer isLoading={true}></SpinnerContainer>
+        </Center> 
+    }
+
     return (
         <Flex
             border={1}
             p={0}
             borderRadius="2xl"
             borderStyle={"solid"}
-            borderColor={useBorderColors().widget}
+            borderColor={widgetBorderColor}
             boxSizing="fitContent"
             overflow="hidden"
             flexDirection="column"
@@ -20,15 +31,20 @@ export const DiscoveredDeviceCard = ({ id, name, address, discoveredAt, rssi, kn
                 <Flex flex={1} w="100%" mb={3} alignItems="top">
                     <Text fontSize="2xl" align="start">{name ? name : "[unknown]"}</Text>
                     <Spacer />
-                    <Button variant="outline" size="sm" px={5} borderRadius="full"
-                        onClick={() => connectDevice(address)}>
+                    <Button variant="outline" size="sm" px={5} borderRadius="full" isDisabled={isLoading}
+                        onClick={() => {
+                            connectDevice(address);
+                            setLoading(true)
+                            refresh()
+                        }}>
                         Connect
                     </Button>
                 </Flex>
 
                 <VStack alignItems="start" spacing={0.5}>
                     <Text fontSize="sm">{address}</Text>
-                    <Text fontSize="sm">{discoveredAt}</Text>
+                    <Text fontSize="sm">{new Date(discoveredAt).toLocaleDateString("ru-RU",
+                        { year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric" })}</Text>
                     <Text fontSize="sm">Rssi: {rssi}</Text>
                 </VStack>
             </VStack>

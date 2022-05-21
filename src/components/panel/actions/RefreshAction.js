@@ -1,23 +1,25 @@
-import { Flex, FormControl, FormLabel, HStack, Kbd } from "@chakra-ui/react";
+import { Flex, FormControl, FormLabel, HStack, Kbd, Tooltip } from "@chakra-ui/react";
 import { RefreshButton } from "components/button/RefreshButton";
 import { isHotkeyPressed, useHotkeys } from "react-hotkeys-hook";
 
-export const RefreshAction = ({ refreshAction, refreshHotkeys, title, isLoading, ...props }) => {
+export const RefreshAction = ({ refreshAction, refreshHotkeys, title, isLoading, isDisabled, tooltip, ...props }) => {
   useHotkeys(refreshHotkeys.toLowerCase(), () => { if (!isLoading) { refreshAction() } });
   return (
-    <HStack spacing="0.2rem">
-      <FormControl>
-        <FormLabel display={{ base: "display", md: "none" }} mb={{ base: 1, md: 0 }}>Refresh</FormLabel>
-        <RefreshButton
-          focusable={!isLoading && isHotkeyPressed(refreshHotkeys)}
-          border="1px"
-          title={`${title} (${refreshHotkeys})`}
-          onClick={() => refreshAction()}
-          isLoading={isLoading}
-        />
-      </FormControl>
-      <RefreshHotkeysKbd refreshHotkeys={refreshHotkeys} />
-    </HStack>
+    <Tooltip label={tooltip} placement="top">
+      <HStack spacing="0.2rem">
+        <FormControl>
+          <RefreshButton
+            focusable={!isLoading && isHotkeyPressed(refreshHotkeys)}
+            border="1px"
+            title={`${title} (${refreshHotkeys})`}
+            onClick={() => refreshAction()}
+            isLoading={isLoading}
+            isDisabled={isDisabled}
+          />
+        </FormControl>
+        <RefreshHotkeysKbd refreshHotkeys={refreshHotkeys} />
+      </HStack>
+    </Tooltip>
   );
 };
 
