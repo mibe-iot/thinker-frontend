@@ -16,7 +16,7 @@ const DeviceWidgetGrid = () => {
         <SimpleGrid mt={1} w="100%" columns={{ base: 1, md: 2, lg: 3, xl: 4 }} spacing="1.5rem">
           {mapDevicesToWidgets(devices, onOpen)}
         </SimpleGrid>
-        <DeviceFullViewModal isOpen={isOpen} onOpen={onOpen} onClose={() => {onClose(); delay(1, refetch)}} />
+        <DeviceFullViewModal isOpen={isOpen} onOpen={onOpen} onClose={() => {onClose(); refetch()}} />
       </>
     );
   } else if(!isLoading) {

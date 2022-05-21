@@ -7,7 +7,7 @@ import { DiscoveredDeviceCard } from "./DiscoveredDeviceCard";
 
 export const DiscoveredDevices = () => {
   const [ isRefetching, setIsRefetching ] = useState(false);
-  const { ids } = useFetchDevicesQuery();
+  const { ids, refetch: refetchConnected } = useFetchDevicesQuery();
   const { sorted: discoveredDevices, isFetching, isError, refetch, isSuccess } = useGetDiscoveredDevicesQuery(undefined, {
 
     selectFromResult: result => ({
@@ -33,7 +33,7 @@ export const DiscoveredDevices = () => {
     !isFetching && !isError ?
       <SimpleGrid w="100%" columns={{ base: 1, md: 2, lg: 3 }} pb={6} spacing="1.5rem">
         {discoveredDevices
-          .map(device => <DiscoveredDeviceCard key={device.address} {...device} />)}
+          .map(device => <DiscoveredDeviceCard key={device.address} {...device} refresh={() => {delay(2, refetchConnected)} }/>)}
       </SimpleGrid> : <></>
   );
 }

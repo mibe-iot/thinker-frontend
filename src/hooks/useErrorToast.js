@@ -6,7 +6,6 @@ export const useErrorToast = (errorState) => {
     const toast = useToast();
     const id = "show-error-toast"
     useEffect(() => {
-        console.log(errorState)
         if (errorState && !toast.isActive(id)) {
             toast({
                 id,

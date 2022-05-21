@@ -9,7 +9,7 @@ export const DeviceActionChips = ({ device }) => {
   }
   
   return (
-    <Flex flexWrap="wrap" alignItems="baseline" spacing={2}>
+    <Flex flexWrap="wrap" alignItems="baseline" spacing={2} mb={1.5}>
       {device.actions.map((action, index) => <DeviceActionChip key={action.name} deviceId={device.id} actionName={action.name} />)}
     </Flex>
   )
@@ -19,10 +19,10 @@ const DeviceActionChip = ({ deviceId, actionName }) => {
   const [executeAction, { isLoading }] = useExecuteActionMutation();
   return (
     <Button
-      p={3}
+      py={1.5}
+      px={3}
       opacity={0.8}
-      m={0.5}
-      size="xs"
+      size="x s"
       variant="outline"
       textAlign="center"
       borderRadius="full"
@@ -49,7 +49,8 @@ export const DeviceSelectableActionChip = ({ actionName , onClick, initialSelect
 const DeviceActionChipButton = ({name, onClick, ...props}) => {
   return (
     <Button
-      p={3}
+      py={1.5}
+      px={3}
       opacity={0.8}
       m={0.5}
       size="xs"

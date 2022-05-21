@@ -1,5 +1,7 @@
 export const BACKEND_URL = "http://thinker.local:8080"
 
+export const DEVICE_STATUS_WAITING_CONFIGURATION = "WAITING_CONFIGURATION";
+
 export const DEVICE_NAME_MIN_LENGTH = 4;
 export const DEVICE_NAME_LENGTH = 256;
 export const DEVICE_DESCRIPTION_LENGTH = 2048;

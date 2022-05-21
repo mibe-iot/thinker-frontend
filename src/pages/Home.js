@@ -14,9 +14,7 @@ const Home = () => {
         leftSide={<PageTitle>Linked devices</PageTitle>}
         rightSide={<DeviceWidgetGridActions refreshAction={refetch} isLoading={isLoading} />}
       />
-      {/* <SpinnerContainer isLoading={isLoading} error={error}> */}
         <DeviceWidgetGrid />
-      {/* </SpinnerContainer> */}
     </Flex>
   );
 }

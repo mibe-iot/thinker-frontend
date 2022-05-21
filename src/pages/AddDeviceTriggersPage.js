@@ -16,44 +16,59 @@ export const AddDeviceTriggersPage = () => {
     const { data: devices, refetch, isLoading: isDeviceLoading } = useFetchDevicesQuery();
     const { data: triggers, isLoading: isTriggersLoading, refetch: refetchTriggers } = useGetDeviceTriggersQuery(deviceId);
     const { data: hooks, isHooksLoading, refetch: refetchHooks } = useGetAllHooksQuery();
-    const refresh = () => {refetch(); refetchTriggers(); refetchHooks()} 
+    const refresh = () => { refetch(); refetchTriggers(); refetchHooks() }
     const tmp = Object.values(devices).filter(device => device.id === deviceId);
     const device = tmp.length > 0 ? tmp[0] : undefined
+
+    if (!device) {
+        return (
+            <Center width="100%"><Heading>404 Error: Device not found by id={deviceId}</Heading></Center>
+        )
+    }
+
     return (
         <VStack width="100%" spacing={16}>
             <SpinnerContainer isLoading={isDeviceLoading || isHooksLoading}>
-                {device
-                    ? <Flex direction="column" width="100%">
-                        <ActionPanel
-                            leftSide={<PageTitle>Hooks</PageTitle>}
-                            rightSide={
-                                <RefreshButton 
-                                onClick={() => refresh()} 
+                <Flex direction="column" width="100%">
+                    <ActionPanel
+                        leftSide={<PageTitle>Device's triggers</PageTitle>}
+                        rightSide={
+                            <RefreshButton
+                                onClick={() => refresh()}
                                 isLoading={isDeviceLoading || isTriggersLoading || isHooksLoading} />
-                            }
-                        />
-                        <Accordion allowToggle mb={4}>
-                            <AccordionItem border={0}>
-                                <AccordionButton>
-                                    <Box flex='1' textAlign='left'>
-                                        <Heading as="h2" size="lg">Create new device reports triggers</Heading>
-                                    </Box>
-                                    <AccordionIcon />
-                                </AccordionButton>
-                                <AccordionPanel pb={4}>
-                                    <CreateTriggersForm device={device} />
-                                </AccordionPanel>
-                            </AccordionItem>
-                        </Accordion>
-                        <Divider />
-                    </Flex >
-                    : <Center width="100%"><Heading>404 Error: Device not found by id={deviceId}</Heading></Center>
-                }
+                        }
+                    />
+                    <TriggerCreator device={device} />
+                </Flex >
             </SpinnerContainer>
             <SpinnerContainer isLoading={isTriggersLoading || isHooksLoading}>
                 <TriggersAndHooks refresh={refresh} triggers={triggers} hooks={hooks} />
             </SpinnerContainer>
         </VStack>
+    )
+}
+
+const TriggerCreator = ({ device }) => {
+    if (!device.reportTypes || device.reportTypes.length === 0) {
+        return (<Text>Device doesn't have report types to create triggers</Text>)
+    }
+    return (
+        <>
+        <Accordion allowToggle mb={4}>
+            <AccordionItem border={0}>
+                <AccordionButton>
+                    <Box flex='1' textAlign='left'>
+                        <Heading as="h2" size="lg">Create new device reports triggers</Heading>
+                    </Box>
+                    <AccordionIcon />
+                </AccordionButton>
+                <AccordionPanel pb={4}>
+                    <CreateTriggersForm device={device} />
+                </AccordionPanel>
+            </AccordionItem>
+        </Accordion>
+        <Divider />
+        </>
     )
 }
 
@@ -159,13 +174,14 @@ const CreateTriggersForm = ({ device }) => {
 }
 
 const TriggersAndHooks = ({ triggers, hooks, refresh }) => {
-    if (!triggers || !hooks) return <></>
+    if (!triggers || triggers.length === 0 || !hooks || hooks.length === 0) return <></>
     const grouped = triggers.reduce((group, trigger) => {
         const { reportType } = trigger;
         group[reportType] = group[reportType] ?? [];
         group[reportType].push(trigger);
         return group;
     }, {});
+
     return (
         <VStack align="start" pb={4}>
             <Heading ps={2} as="h2" fontSize="xl" mb={5}>What hooks are called</Heading>
