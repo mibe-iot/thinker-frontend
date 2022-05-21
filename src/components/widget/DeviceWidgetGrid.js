@@ -1,13 +1,15 @@
 import { Button, HStack, SimpleGrid, Stack, Text, useDisclosure } from "@chakra-ui/react";
 import { DeviceFullViewModal } from "components/devices/linked/DeviceFullViewModal";
 import { Link } from "components/link/Link";
+import { useErrorToast } from "hooks/useErrorToast";
 import { useFetchDevicesQuery } from "store/slice/devicesSlice";
 import { delay } from "utils/utils";
 import { DeviceWidget } from "./DeviceWidget";
 
 const DeviceWidgetGrid = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { data: devices, isLoading, refetch } = useFetchDevicesQuery();
+  const { data: devices, isLoading, refetch, error } = useFetchDevicesQuery();
+  useErrorToast(error)
   if (devices && Object.keys(devices).length > 0) {
     return (
       <>

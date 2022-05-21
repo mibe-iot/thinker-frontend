@@ -1,10 +1,11 @@
 import { ChevronLeftIcon, ChevronRightIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
-import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Badge, border, Box, Button, Center, Divider, Flex, FormControl, FormLabel, HStack, IconButton, Input, Link, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, SimpleGrid, Spacer, Stack, Table, TableCaption, TableContainer, Tbody, Td, Text, Textarea, Tfoot, Th, Thead, Tr, useDisclosure, VStack } from "@chakra-ui/react";
+import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Badge, border, Box, Button, Center, Divider, Flex, FormControl, FormLabel, HStack, IconButton, Input, Link, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, SimpleGrid, Spacer, Spinner, Stack, Table, TableCaption, TableContainer, Tbody, Td, Text, Textarea, Tfoot, Th, Thead, Tr, useDisclosure, VStack } from "@chakra-ui/react";
 import { DEVICE_DESCRIPTION_LENGTH } from "api/contants";
 import { useDeleteDeviceMutation, useGetReportsPageQuery, usePatchDeviceMutation } from "api/services/devicesApi";
 import { RefreshButton } from "components/button/RefreshButton";
 import { DeviceActionChips } from "components/devices/linked/DeviceActionChips";
 import { WarningBadge } from "components/info/WarningItem";
+import { SpinnerContainer } from "components/spinner/SpinnerContainer";
 import { Field, Form, Formik } from "formik";
 import { usePagination } from "hooks/usePagination";
 import { useEffect, useRef, useState } from "react";
@@ -15,26 +16,46 @@ import { useBorderColors, useColors } from "styles/theme/foundations/colors";
 import { coalesce } from "utils/utils";
 
 export const DeviceFullViewModal = ({ isOpen, onOpen, onClose: closeModal }) => {
+    const [ shouldClose, setShouldClose ] = useState(false);
     const activeDeviceAddress = useSelector(state => state.devices.activeDeviceAddress);
     const { data: entities } = useFetchDevicesQuery();
-    const [updateDevice, { isLoading, isError, error }] = usePatchDeviceMutation(activeDeviceAddress);
+    const [updateDevice, { isLoading, isError, isSuccess, error }] = usePatchDeviceMutation(activeDeviceAddress);
     const [deleteDevice, { isLoading: isDeleting }] = useDeleteDeviceMutation();
     const [isEditMode, setEditMode] = useState(false);
     const initialRef = useRef();
+    
+
+    useEffect(() => {
+        console.log("************************")
+        console.log(shouldClose)
+        console.log(isLoading)
+        console.log(isError)
+        console.log(isSuccess)
+        if(!isLoading && !isError && isSuccess && shouldClose) {
+            setShouldClose(false)
+            closeModal();
+        }
+    }, [isLoading])
+
     if (!isOpen) {
         return <></>
+    } else if (shouldClose) {
+        return <SpinnerContainer isLoading={true}></SpinnerContainer>
     }
 
     const device = entities[activeDeviceAddress]
     const name = coalesce(device.name, "");
     const description = coalesce(device.description, "");
-    const onClose = () => { setEditMode(false); closeModal() }
+    const onClose = () => { 
+        setEditMode(false);
+        setShouldClose(true);
+    }
     const SaveButton = <Button mr={3} type="submit" isDisabled={!isEditMode}>Save</Button>
     return (
 
         <Modal
             isOpen={isOpen}
-            onClose={() => { setEditMode(false); onClose() }}
+            onClose={onClose}
             initialFocusRef={initialRef}
             size="6xl"
         >
@@ -43,10 +64,8 @@ export const DeviceFullViewModal = ({ isOpen, onOpen, onClose: closeModal }) => 
                 initialValues={{ name: name, description: description }}
                 onSubmit={(values, { setSubmitting }) => {
                     updateDevice({ deviceId: device.id, ...values })
-                    if (!isError) {
-                        setSubmitting(false)
-                        onClose()
-                    }
+                    setSubmitting(false)
+                    onClose();
                 }}
             >
                 {({ handleSubmit, errors, touched }) => (
@@ -213,7 +232,7 @@ const ReportItem = ({ number, report }) => {
     // type | date created | data
     return (
         <Tr>
-            <Td>{number}<Badge px={1} borderRadius="full">{report.type}</Badge></Td>
+            <Td><Flex alignItems="center">{number}<Badge ms={2} px={2} borderRadius="full">{report.reportType}</Badge></Flex></Td>
             <Td>{new Date(report.dateTimeCreated).toLocaleDateString("ru-RU", { year: "numeric", month: "numeric", day: "numeric" })}</Td>
             <Td>{<Flex flexDirection="column">{reportData}</Flex>}</Td>
         </Tr>

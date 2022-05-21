@@ -7,6 +7,7 @@ export const DeviceActionChips = ({ device }) => {
   if(!device.actions || device.actions.length < 1) {
     return <></>
   }
+  
   return (
     <Flex flexWrap="wrap" alignItems="baseline" spacing={2}>
       {device.actions.map((action, index) => <DeviceActionChip key={action.name} deviceId={device.id} actionName={action.name} />)}
@@ -26,7 +27,7 @@ const DeviceActionChip = ({ deviceId, actionName }) => {
       textAlign="center"
       borderRadius="full"
       isDisabled={isLoading}
-      onClick={() => executeAction(deviceId, actionName)}
+      onClick={() => executeAction({deviceId, actionName})}
     >
       {actionName}
     </Button>

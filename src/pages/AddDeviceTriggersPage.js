@@ -16,6 +16,7 @@ export const AddDeviceTriggersPage = () => {
     const { data: devices, refetch, isLoading: isDeviceLoading } = useFetchDevicesQuery();
     const { data: triggers, isLoading: isTriggersLoading, refetch: refetchTriggers } = useGetDeviceTriggersQuery(deviceId);
     const { data: hooks, isHooksLoading, refetch: refetchHooks } = useGetAllHooksQuery();
+    const refresh = () => {refetch(); refetchTriggers(); refetchHooks()} 
     const tmp = Object.values(devices).filter(device => device.id === deviceId);
     const device = tmp.length > 0 ? tmp[0] : undefined
     return (
@@ -27,7 +28,7 @@ export const AddDeviceTriggersPage = () => {
                             leftSide={<PageTitle>Hooks</PageTitle>}
                             rightSide={
                                 <RefreshButton 
-                                onClick={() => {refetch(); refetchTriggers(); refetchHooks()}} 
+                                onClick={() => refresh()} 
                                 isLoading={isDeviceLoading || isTriggersLoading || isHooksLoading} />
                             }
                         />
@@ -50,7 +51,7 @@ export const AddDeviceTriggersPage = () => {
                 }
             </SpinnerContainer>
             <SpinnerContainer isLoading={isTriggersLoading || isHooksLoading}>
-                <TriggersAndHooks triggers={triggers} hooks={hooks} />
+                <TriggersAndHooks refresh={refresh} triggers={triggers} hooks={hooks} />
             </SpinnerContainer>
         </VStack>
     )
@@ -157,7 +158,7 @@ const CreateTriggersForm = ({ device }) => {
     )
 }
 
-const TriggersAndHooks = ({ triggers, hooks }) => {
+const TriggersAndHooks = ({ triggers, hooks, refresh }) => {
     if (!triggers || !hooks) return <></>
     const grouped = triggers.reduce((group, trigger) => {
         const { reportType } = trigger;
@@ -177,7 +178,7 @@ const TriggersAndHooks = ({ triggers, hooks }) => {
                         </Flex>
                         <SimpleGrid w="100%" columns={{ base: 1, md: 2, lg: 3, xl: 4 }} spacing="1.5rem">
                             {typeTriggers.map(trigger => (
-                                <HookCard key={trigger.id} hook={hooks.filter(hook => hook.id === trigger.hookId)[0]} />
+                                <HookCard key={trigger.id} refresh={refresh} hook={hooks.filter(hook => hook.id === trigger.hookId)[0]} />
                             ))}
                         </SimpleGrid>
 

@@ -7,22 +7,25 @@ import { DiscoveredDeviceCard } from "./DiscoveredDeviceCard";
 
 export const DiscoveredDevices = () => {
   const { ids } = useFetchDevicesQuery();
-  const { sorted: discoveredDevices, isFetching, isError, refetch } = useGetDiscoveredDevicesQuery(undefined, {
+  const { sorted: discoveredDevices, isFetching, isError, refetch, isSuccess } = useGetDiscoveredDevicesQuery(undefined, {
+
     selectFromResult: result => ({
       ...result,
       sorted: [...result.data]
         .filter(device => !ids.includes(device.address))
         .sort((a, b) => {
-          return b.name.localeCompare(a)
+          return b.knownDevice - a.knownDevice + b.name.localeCompare(a)
         })
     })
   });
   useEffect(() => {
-    if (discoveredDevices.length === 0 && !isError && !isFetching) {
-      delay(() => refetch(), 1000)
+    if (discoveredDevices.length === 0 && isSuccess) {
+      delay(1, () => {
+        refetch();
+      })
       
     }
-  }, [discoveredDevices])
+  }, [discoveredDevices, isSuccess, refetch])
   return (
     !isFetching && !isError ?
       <SimpleGrid w="100%" columns={{ base: 1, md: 2, lg: 3 }} pb={6} spacing="1.5rem">
@@ -31,3 +34,4 @@ export const DiscoveredDevices = () => {
       </SimpleGrid> : <></>
   );
 }
+

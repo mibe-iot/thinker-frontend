@@ -1,9 +1,9 @@
-import { Flex, Stack, Text } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { ActionPanel } from "components/panel/ActionPanel";
+import { SpinnerContainer } from "components/spinner/SpinnerContainer";
 import { PageTitle } from "components/text/PageTitle";
 import { DeviceWidgetGrid } from "components/widget/DeviceWidgetGrid";
 import { DeviceWidgetGridActions } from "components/widget/DeviceWidgetGridActions";
-import { Link } from "react-router-dom";
 import { useFetchDevicesQuery } from "store/slice/devicesSlice";
 
 const Home = () => {
@@ -14,8 +14,9 @@ const Home = () => {
         leftSide={<PageTitle>Linked devices</PageTitle>}
         rightSide={<DeviceWidgetGridActions refreshAction={refetch} isLoading={isLoading} />}
       />
-      <Link to="device/sdfsdfsdfsd/triggers"><Text>ads</Text></Link>
-      <DeviceWidgetGrid />
+      {/* <SpinnerContainer isLoading={isLoading} error={error}> */}
+        <DeviceWidgetGrid />
+      {/* </SpinnerContainer> */}
     </Flex>
   );
 }

@@ -1,4 +1,4 @@
-
+export const BACKEND_URL = "http://thinker.local:8080"
 
 export const DEVICE_NAME_MIN_LENGTH = 4;
 export const DEVICE_NAME_LENGTH = 256;

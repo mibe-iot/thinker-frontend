@@ -1,8 +1,11 @@
-import { Divider, Text, VStack } from "@chakra-ui/react"
+import { Divider, Flex, Text, VStack } from "@chakra-ui/react"
+import { useDeleteHookMutation } from "api/services/hooksApi"
+import { DeleteButton } from "components/button/DeleteButton"
 import { useBorderColors } from "styles/theme/foundations/colors"
-import { coalesce } from "utils/utils"
+import { coalesce, delay } from "utils/utils"
 
-export const HookCard = ({ hook }) => {
+export const HookCard = ({ hook, refresh }) => {
+    const [deleteHook] = useDeleteHookMutation()
     return (
         <VStack
             align="start"
@@ -14,7 +17,10 @@ export const HookCard = ({ hook }) => {
             boxSizing="fitContent"
             divider={<Divider />}
         >
-            <Text fontSize="lg" fontWeight="semibold">Name: {coalesce(hook.name, "[None]")}</Text>
+            <Flex direction="row">
+                <Text fontSize="lg" fontWeight="semibold">Name: {coalesce(hook.name, "[None]")}</Text>
+                <DeleteButton onClick={() => { deleteHook(hook.id); delay(1, refresh()) }} />
+            </Flex>
             <Text>Type: {coalesce(hook.type, "[None]")}</Text>
             <Text>Id: {coalesce(hook.id, "[None]")}</Text>
             <Text fontSize="sm">Description: {coalesce(hook.description, "[None]")}</Text>
