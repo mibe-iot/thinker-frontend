@@ -1,18 +1,5 @@
-FROM node:16 as build-stage
-
-WORKDIR /app
-
-COPY package*.json /app/
-
-RUN npm ci --only=production
-
-COPY ./ /app/
-
-RUN npm run build
-
-
 FROM nginx:1.21
 
-COPY --from=build-stage /app/build/ /var/www/thinker/html
+COPY /app/ /var/www/thinker/html
 
-COPY --from=build-stage /app/nginx.conf /etc/nginx/conf.d/default.conf
+COPY /app/nginx.conf /etc/nginx/conf.d/default.conf
