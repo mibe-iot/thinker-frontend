@@ -33,6 +33,9 @@ jobs:
       - name: Copy nginx configuration
         run: cp nginx.conf build/
         
+      - name: Copy nginx configuration
+        run: cp Dockerfile build/
+        
       - name: Upload distribution
         uses: actions/upload-artifact@v3
         with:
