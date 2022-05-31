@@ -30,12 +30,6 @@ jobs:
       - name: Build frontend distribution
         run: npm run build
         
-      - name: Copy nginx configuration
-        run: cp nginx.conf build/
-        
-      - name: Copy nginx configuration
-        run: cp Dockerfile build/
-        
       - name: Upload distribution
         uses: actions/upload-artifact@v3
         with:
@@ -59,6 +53,9 @@ jobs:
         uses: sigstore/cosign-installer@d6a3abf1bdea83574e28d40543793018b6035605
         with:
           cosign-release: 'v1.7.1'
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       - name: Download distribution
         uses: actions/download-artifact@v3
