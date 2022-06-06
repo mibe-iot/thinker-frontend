@@ -1,25 +1,65 @@
-import { HOOK_TYPE_SEND_EMAIL } from "api/contants";
+import { Button, Center, FormLabel, Heading, Input, Stack, useToast } from "@chakra-ui/react";
 import { useCreateEmailHookMutation } from "api/services/hooksApi";
+import { SpinnerContainer } from "components/spinner/SpinnerContainer";
+import { Field, Form, Formik } from "formik";
+import { useEffect, useState } from "react";
+import { isError } from "react-query";
+import { coalesceOrEmpty } from "utils/utils";
 
-const { HStack, Stack, Input, Heading, FormLabel, Button, Center } = require("@chakra-ui/react");
-const { Formik, Form, Field } = require("formik")
 
 
 
 export const EmailHookCreator = ({ onClose }) => {
-    const [createHook, { isLoading }] = useCreateEmailHookMutation();
+    const [isSaving, setSaving] = useState(false);
+    const [createHook, { isLoading, isSuccess }] = useCreateEmailHookMutation();
+    const toast = useToast();
+    const toastId = "save-new-hook-error";
+
+    useEffect(() => {
+        if (isSaving && !isLoading) {
+            if (isSuccess) {
+                setSaving(false)
+                onClose();
+            } else if (isError) {
+                setSaving(false)
+                !toast.isActive(toastId) && toast({
+                    position: "top",
+                    title: "An error occurred",
+                    description: "Something bad happened while trying to save hook. Please, try again",
+                    isClosable: true,
+                    status: "error"
+                })
+            }
+        }
+    }, [isLoading, isSaving, isSuccess, onClose, toast])
+
+    if (isLoading) {
+        return <SpinnerContainer isLoading={true}></SpinnerContainer>
+    }
+
     return (
         <Formik
             initialValues={{}}
-            onSubmit={(values, { setSubmitting }) => {
+            onSubmit={(values) => {
+                console.log({
+                    name: values.name,
+                    description: coalesceOrEmpty(values.description, ""),
+                    emailAddress: { address: values.email }
+                })
+                console.log({
+                    "name": "string",
+                    "description": "string",
+                    "emailAddress": {
+                        "address": "ilboogl@gmail.com"
+                    },
+                    "type": "string"
+                })
                 createHook({
                     name: values.name,
-                    description: values.description,
-                    emailAddress: { address: values.email },
-                    type: HOOK_TYPE_SEND_EMAIL
+                    description: coalesceOrEmpty(values.description, ""),
+                    emailAddress: { address: values.email }
                 })
-                setSubmitting(false)
-                onClose();
+                setSaving(true)
             }}
         >
             {({ handleSubmit, errors, touched }) => (
@@ -43,7 +83,6 @@ export const EmailHookCreator = ({ onClose }) => {
                             name="description"
                             type="string"
                             variant="outline"
-                            isRequired
                             placeholder="Some description here"
                         />
                         <FormLabel htmlFor="description">Email address for letters with reports</FormLabel>
@@ -51,12 +90,12 @@ export const EmailHookCreator = ({ onClose }) => {
                             as={Input}
                             id="email"
                             name="email"
-                            type="string"
+                            type="email"
                             variant="outline"
                             isRequired
                             placeholder="email@gmail.com"
                         />
-                        
+
                     </Stack>
                     <Center><Button px={36} type="submit" >Save</Button></Center>
                 </Form>

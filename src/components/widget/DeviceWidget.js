@@ -2,7 +2,7 @@ import {
   Badge,
   Box, Center, Divider, Flex, IconButton, Spacer, Text, VStack
 } from "@chakra-ui/react";
-import { DEVICE_STATUS_WAITING_CONFIGURATION } from "api/contants";
+import { DEVICE_STATUS_WAITING_CONFIGURATION } from "api/constants";
 import { DeviceActionChips } from "components/devices/linked/DeviceActionChips";
 import { ChakraIcon } from "components/icon/ChakraIcon";
 import { IoResize } from "react-icons/io5";
@@ -30,13 +30,9 @@ const DeviceWidget = ({ device, onOpen, ...props }) => (
       onOpen={onOpen}
     />
     {device.status === DEVICE_STATUS_WAITING_CONFIGURATION
-      ? <Center width="100%"><Badge colorScheme="yellow">Device is waiting configuration</Badge></Center>
-      : <>
-        <DeviceActionChips device={device} />
-        <Divider />
-        <Box>{props.children}</Box>
-      </>
-    } 
+      && <Center width="100%"><Badge colorScheme="yellow">Device is waiting configuration</Badge></Center>}
+    {device.status !== DEVICE_STATUS_WAITING_CONFIGURATION && <DeviceActionChips device={device} />}
+    {device.status !== DEVICE_STATUS_WAITING_CONFIGURATION && <Box>{props.children}</Box>}
   </VStack>
 )
 

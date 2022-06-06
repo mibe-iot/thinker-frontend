@@ -9,7 +9,7 @@ export const DeviceActionChips = ({ device }) => {
   }
   
   return (
-    <Flex flexWrap="wrap" alignItems="baseline" spacing={2} mb={1.5}>
+    <Flex flexWrap="wrap" alignItems="baseline" spacing={2}>
       {device.actions.map((action, index) => <DeviceActionChip key={action.name} deviceId={device.id} actionName={action.name} />)}
     </Flex>
   )

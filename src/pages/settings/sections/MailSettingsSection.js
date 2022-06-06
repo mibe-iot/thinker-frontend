@@ -1,5 +1,5 @@
 import { Input } from "@chakra-ui/react"
-import { EMAIL_MAX_LENGTH, EMAIL_MIN_LENGTH, EMAIL_PASSWORD_MAX_LENGTH, EMAIL_PASSWORD_MIN_LENGTH } from "api/contants"
+import { EMAIL_MAX_LENGTH, EMAIL_MIN_LENGTH, EMAIL_PASSWORD_MAX_LENGTH, EMAIL_PASSWORD_MIN_LENGTH } from "api/constants"
 import { MAIL_SETTINGS_TYPE, useGetSettingsByTypeQuery, useUpdateMailSettingsMutation } from "api/services/appSettingsApi"
 import { SpinnerContainer } from "components/spinner/SpinnerContainer"
 import { Field } from "formik"

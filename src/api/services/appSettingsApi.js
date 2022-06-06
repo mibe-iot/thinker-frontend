@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
-import { BACKEND_URL } from "api/contants";
+import { BACKEND_URL } from "api/constants";
 
 export const APP_SETTINGS_TYPE = "APPLICATION";
 export const MAIL_SETTINGS_TYPE = "MAIL";

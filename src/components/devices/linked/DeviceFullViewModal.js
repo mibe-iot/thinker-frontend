@@ -1,6 +1,6 @@
 import { ChevronLeftIcon, ChevronRightIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Badge, Button, Center, Divider, Flex, FormControl, FormLabel, HStack, IconButton, Input, Link, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, SimpleGrid, Spacer, Stack, Table, TableCaption, TableContainer, Tbody, Td, Text, Textarea, Tfoot, Th, Thead, Tr, useDisclosure, VStack } from "@chakra-ui/react";
-import { DEVICE_DESCRIPTION_LENGTH } from "api/contants";
+import { DEVICE_DESCRIPTION_LENGTH } from "api/constants";
 import { useDeleteDeviceMutation, useGetReportsPageQuery, usePatchDeviceMutation } from "api/services/devicesApi";
 import { RefreshButton } from "components/button/RefreshButton";
 import { DeviceActionChips } from "components/devices/linked/DeviceActionChips";
@@ -174,7 +174,7 @@ const DeviceReportsViewer = ({ device }) => {
     const pageSize = 5;
     const [itemsCount, setItemsCount] = useState(1)
     let pagination = usePagination(1, itemsCount, pageSize)
-    const { data: reportsPage, isLoading, refetchReports } = useGetReportsPageQuery({
+    const { data: reportsPage, isLoading, refetch: refetchReports } = useGetReportsPageQuery({
         deviceId: device.id,
         page: pagination.page,
         pageSize: 5
@@ -184,6 +184,8 @@ const DeviceReportsViewer = ({ device }) => {
         !isLoading && reportsPage && setItemsCount(reportsPage.itemsCount)
     ), [isLoading, reportsPage])
 
+    const refreshReportsButton = <RefreshButton isLoading={isLoading} onClick={refetchReports} />;
+
     const getItemNumber = (i) => (pageSize * (pagination.page - 1)) + i + 1;
     const isAnyReportsFound = (reportsPage && reportsPage.reports && reportsPage.reports.length > 0)
     return (
@@ -191,7 +193,7 @@ const DeviceReportsViewer = ({ device }) => {
             <VStack>
                 <TableContainer width="100%" border="1px" borderColor={borderColor} borderRadius="lg" px={4}>
                     <Table>
-                        <TableCaption placement="top">Device reports</TableCaption>
+                        <TableCaption placement="top">Device reports {refreshReportsButton}</TableCaption>
                         <Thead>
                             <Tr>
                                 <Th>No. / Type</Th>
@@ -219,7 +221,7 @@ const DeviceReportsViewer = ({ device }) => {
                     <Pagination isLoading={isLoading} {...pagination} />
                 </Flex>
             </VStack>
-            : <Center><Text me={2}>No reports found</Text><RefreshButton onClick={refetchReports} /></Center>
+            : <Center><Text me={2}>No reports found</Text>{refreshReportsButton}</Center>
     )
 }
 
@@ -234,7 +236,7 @@ const Pagination = ({ page, incrementPage, decrementPage, isFirstPage, isLastPag
 }
 
 const ReportItem = ({ number, report }) => {
-    const reportData = Object.entries(report.reportData)
+    const reportData = Object.entries({temperature: Math.floor(Math.random() * 2 + 21), humidity: Math.floor(Math.random() * 6 + 60)})
         .map(([key, value]) => `${key}: ${value}`)
         .map((it, i) => <Text key={i}>{it}</Text>);
     // type | date created | data

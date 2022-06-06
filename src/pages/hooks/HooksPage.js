@@ -15,7 +15,6 @@ export const HooksPage = () => {
     const { data: hooks, isLoading, refetch } = useGetAllHooksQuery();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const refresh = () => {
-        console.log("refresh")
         delay(1, () => refetch());
     }
     return (

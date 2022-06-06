@@ -1,5 +1,5 @@
 import { Input } from "@chakra-ui/react"
-import { WIFI_PASSWORD_MIN_LENGTH, WIFI_SSID_MIN_LENGTH } from "api/contants"
+import { WIFI_PASSWORD_MIN_LENGTH, WIFI_SSID_MIN_LENGTH } from "api/constants"
 import { APP_SETTINGS_TYPE, useGetAppSettingsQuery, useGetSettingsByTypeQuery, useUpdateAppSettingsMutation } from "api/services/appSettingsApi"
 import { Field } from "formik"
 import { useEffect } from "react"

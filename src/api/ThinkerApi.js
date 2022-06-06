@@ -1,5 +1,5 @@
 import canNdjsonStream from "can-ndjson-stream";
-import { BACKEND_URL } from "./contants";
+import { BACKEND_URL } from "./constants";
 
 export const BASE_URL = `${BACKEND_URL}/api`
 
