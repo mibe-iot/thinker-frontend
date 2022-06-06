@@ -3,7 +3,7 @@ import { BACKEND_URL } from "api/constants";
 
 export const hooksApi = createApi({
     reducerPath: "hooksApi",
-    baseQuery: fetchBaseQuery({ baseUrl: `${BACKEND_URL}/api` }),
+    baseQuery: fetchBaseQuery({ baseUrl: BACKEND_URL }),
     endpoints: builder => ({
         getAllHooks: builder.query({
             query: () => ({ url: "/hooks" })

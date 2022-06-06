@@ -4,7 +4,7 @@ import { BACKEND_URL } from "api/constants";
 
 export const devicesApi = createApi({
   reducerPath: "devicesApi",
-  baseQuery: fetchBaseQuery({ baseUrl: `${BACKEND_URL}/api/devices` }),
+  baseQuery: fetchBaseQuery({ baseUrl: `${BACKEND_URL}/devices` }),
   endpoints: builder => ({
     getReportsPage: builder.query({
       query: ({ deviceId, page, pageSize }) => ({ url: `${deviceId}/reports?page=${page}&pageSize=${pageSize}` })

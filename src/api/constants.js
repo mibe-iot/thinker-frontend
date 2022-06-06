@@ -1,4 +1,4 @@
-export const BACKEND_URL = "http://thinker.local:8080"
+export const BACKEND_URL = "/api"
 
 export const DEVICE_STATUS_WAITING_CONFIGURATION = "WAITING_CONFIGURATION";
 

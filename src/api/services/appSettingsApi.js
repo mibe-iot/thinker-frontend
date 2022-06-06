@@ -6,7 +6,7 @@ export const MAIL_SETTINGS_TYPE = "MAIL";
 
 export const appSettingsApi = createApi({
     reducerPath: "appSettingsApi",
-    baseQuery: fetchBaseQuery({ baseUrl: `${BACKEND_URL}/api/settings` }),
+    baseQuery: fetchBaseQuery({ baseUrl: `${BACKEND_URL}/settings` }),
     endpoints: builder => ({
       getSettingsStatus: builder.query({
         query: () => ({ method: "GET", url: "/status" })

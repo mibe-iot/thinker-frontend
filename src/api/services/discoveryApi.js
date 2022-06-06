@@ -3,7 +3,7 @@ import { BACKEND_URL } from "api/constants";
 
 export const discoveryApi = createApi({
     reducerPath: "discoveryApi",
-    baseQuery: fetchBaseQuery({ baseUrl: `${BACKEND_URL}/api/discovery` }),
+    baseQuery: fetchBaseQuery({ baseUrl: `${BACKEND_URL}/discovery` }),
     endpoints: builder => ({
         getDiscoveryStatus: builder.query({
             query: () => ({ url: "/status" }),

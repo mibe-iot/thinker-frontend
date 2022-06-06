@@ -1,10 +1,8 @@
 import canNdjsonStream from "can-ndjson-stream";
 import { BACKEND_URL } from "./constants";
 
-export const BASE_URL = `${BACKEND_URL}/api`
-
 export const buildApiUrl = (url, options) => {
-    let apiUrl = BASE_URL + url;
+    let apiUrl = BACKEND_URL + url;
     if (options && Object.keys(options).length > 0) {
         apiUrl += "?" + Object.entries(options).map(([key, value]) => key + "=" + value).join("&");
     }
