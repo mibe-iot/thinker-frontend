@@ -42,7 +42,7 @@ const mapDevicesToWidgets = (devices, onOpen) => {
       {device.latestReport && (
         <Stack spacing="1">
           <Text fontSize="md">latest report:</Text>
-          {Object.entries({temperature: 22.3, humidity: 62}).map(([key, value]) => (
+          {Object.entries(device.latestReport.reportData).map(([key, value]) => (
             <Text key={key} fontSize="xs">{`${key} : ${value}`}</Text>
           ))}
         </Stack>

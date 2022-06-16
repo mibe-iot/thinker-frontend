@@ -236,7 +236,7 @@ const Pagination = ({ page, incrementPage, decrementPage, isFirstPage, isLastPag
 }
 
 const ReportItem = ({ number, report }) => {
-    const reportData = Object.entries({temperature: Math.floor(Math.random() * 2 + 21), humidity: Math.floor(Math.random() * 6 + 60)})
+    const reportData = Object.entries(report.reportData)
         .map(([key, value]) => `${key}: ${value}`)
         .map((it, i) => <Text key={i}>{it}</Text>);
     // type | date created | data
