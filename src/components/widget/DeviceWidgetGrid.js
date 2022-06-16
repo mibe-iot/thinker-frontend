@@ -43,7 +43,7 @@ const mapDevicesToWidgets = (devices, onOpen) => {
         <Stack spacing="1">
           <Text fontSize="md">latest report:</Text>
           {Object.entries(device.latestReport.reportData).map(([key, value]) => (
-            <Text key={key} fontSize="xs">{`${key} : ${value}`}</Text>
+            <Text key={key} fontSize="xs">{`${key} : ${parseFloat(value).toFixed(2)}`}</Text>
           ))}
         </Stack>
       )}

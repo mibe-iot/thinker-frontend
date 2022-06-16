@@ -237,7 +237,7 @@ const Pagination = ({ page, incrementPage, decrementPage, isFirstPage, isLastPag
 
 const ReportItem = ({ number, report }) => {
     const reportData = Object.entries(report.reportData)
-        .map(([key, value]) => `${key}: ${value}`)
+        .map(([key, value]) => `${key}: ${parseFloat(value).toFixed(2)}`)
         .map((it, i) => <Text key={i}>{it}</Text>);
     // type | date created | data
     return (
