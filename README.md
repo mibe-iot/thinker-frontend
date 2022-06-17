@@ -86,6 +86,18 @@ npm start
 And then application will start on `localhost:3000`. Please note that in `dev` mode application expects thinker-backend
 to be up and ready on `localhost:8080`. If you'd like to change it, see the end of [package.json](./package.json) file.
 
+## Technologies used
+
+- **React**. Official website: https://reactjs.org/
+- **JS**
+- **create-react-app**. Official website: https://create-react-app.dev/
+- **npm**. Official website: https://www.npmjs.com/
+- **RTK**. Official website: https://redux-toolkit.js.org/rtk-query/overview
+- **Redux**. Official website: https://redux.js.org/
+- **Chakra UI**. Official website: https://chakra-ui.com/
+- **Axios**. Repository: https://github.com/axios/axios
+- **Formik**. Official website: https://formik.org/docs/overview
+
 ## Contacts:
 
 Feel free to reach me out in case of any question:
