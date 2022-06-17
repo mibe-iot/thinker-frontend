@@ -37,11 +37,11 @@ export const WifiSettingsSection = ({ sectionName }) => {
             ? <></>
             : <SettingsSection
                 name={sectionName}
-                onSubmit={(values) => updateAppSettings({
+                onSubmit={(values) => (updateAppSettings({
                     ssid: values.ssid.split(""),
                     password: values.password.split(""),
                     type: APP_SETTINGS_TYPE
-                })}
+                }))}
                 initialValues={initialValues}
                 labelsToFields={sectionInputs}
             />

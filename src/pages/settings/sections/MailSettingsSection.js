@@ -39,11 +39,11 @@ export const MailSettingsSection = ({ sectionName }) => {
         <SpinnerContainer isLoading={isLoading}>
             <SettingsSection
                 name={sectionName}
-                onSubmit={(values) => updateMailSettings({
+                onSubmit={(values) => (updateMailSettings({
                     mailUsername: values.email.split(""),
                     mailPassword: values.password.split(""),
                     type: MAIL_SETTINGS_TYPE
-                })}
+                }))}
                 initialValues={initialValues}
                 labelsToFields={sectionInputs}
             />
