@@ -29,15 +29,14 @@ export const ConnectPage = () => {
         status: "warning",
       })
   },
-    [wifiSettingsConfigured, isGetStatusLoading, configureWifiTip, navigate, toast]
+    [wifiSettingsConfigured, isGetStatusLoading, configureWifiTip, navigate, toast, isGetStatusSuccess]
   )
 
-  const { data: isDiscoveryActive, refetch: refetchStatus, isError: isStatusError } = useDiscoveryStatus();
-  const { data: discoveredDevices, isLoading, refetch: refetchDiscoveredDevices, isError: isDevicesError } = useGetDiscoveredDevicesQuery();
+  const { data: isDiscoveryActive, refetch: refetchStatus } = useDiscoveryStatus();
+  const { isLoading, refetch: refetchDiscoveredDevices } = useGetDiscoveredDevicesQuery();
   const { refetch: refetchDevices } = useFetchDevicesQuery();
-  const isError = isStatusError || isDevicesError;
   const refetchAllDevices = () => { refetchDevices(); refetchDiscoveredDevices() }
-  useEffect(refetchAllDevices, [isDiscoveryActive]);
+  useEffect(refetchAllDevices, [isDiscoveryActive, refetchDiscoveredDevices, refetchDevices]);
   return (
     <Stack w="100%" spacing="4">
       <ActionPanel

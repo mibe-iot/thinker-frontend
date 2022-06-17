@@ -1,6 +1,5 @@
 import { Flex } from "@chakra-ui/react";
 import { ActionPanel } from "components/panel/ActionPanel";
-import { SpinnerContainer } from "components/spinner/SpinnerContainer";
 import { PageTitle } from "components/text/PageTitle";
 import { DeviceWidgetGrid } from "components/widget/DeviceWidgetGrid";
 import { DeviceWidgetGridActions } from "components/widget/DeviceWidgetGridActions";
@@ -14,7 +13,7 @@ const Home = () => {
         leftSide={<PageTitle>Linked devices</PageTitle>}
         rightSide={<DeviceWidgetGridActions refreshAction={refetch} isLoading={isLoading} />}
       />
-        <DeviceWidgetGrid />
+      <DeviceWidgetGrid />
     </Flex>
   );
 }

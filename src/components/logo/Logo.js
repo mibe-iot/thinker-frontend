@@ -1,5 +1,4 @@
 import { useHover } from "hooks/useHover";
-import { Flex } from "@chakra-ui/react";
 
 const Logo = ({
   height,
@@ -51,3 +50,4 @@ const Logo = ({
 };
 
 export { Logo };
+

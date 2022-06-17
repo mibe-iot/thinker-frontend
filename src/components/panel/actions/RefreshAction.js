@@ -1,4 +1,4 @@
-import { Flex, FormControl, FormLabel, HStack, Kbd, Tooltip } from "@chakra-ui/react";
+import { Flex, FormControl, HStack, Kbd, Tooltip } from "@chakra-ui/react";
 import { RefreshButton } from "components/button/RefreshButton";
 import { isHotkeyPressed, useHotkeys } from "react-hotkeys-hook";
 

@@ -11,8 +11,6 @@ import { useFetchDevicesQuery } from "store/slice/devicesSlice";
 import { useBorderColors } from "styles/theme/foundations/colors";
 import { coalesce, delay } from "utils/utils";
 
-
-
 export const AddDeviceTriggersPage = () => {
     const { deviceId } = useParams();
     const { data: devices, refetch, isLoading: isDeviceLoading } = useFetchDevicesQuery();

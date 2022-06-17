@@ -110,7 +110,7 @@ export const discoverySlice = createSlice({
 export const useDiscoveryStatus = (onErrorCallback) => {
     const { discoveryStatus, loadingStatus, isError, error } = useSelector(state => state.discovery);
     const dispatch = useDispatch();
-    useEffect(() => dispatch(getDiscoveryStatus()), []);
+    useEffect(() => dispatch(getDiscoveryStatus()), [dispatch]);
 
     return {
         data: discoveryStatus,

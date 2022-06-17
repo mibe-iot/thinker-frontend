@@ -3,7 +3,6 @@ import { DeviceFullViewModal } from "components/devices/linked/DeviceFullViewMod
 import { Link } from "components/link/Link";
 import { useErrorToast } from "hooks/useErrorToast";
 import { useFetchDevicesQuery } from "store/slice/devicesSlice";
-import { delay } from "utils/utils";
 import { DeviceWidget } from "./DeviceWidget";
 
 const DeviceWidgetGrid = () => {

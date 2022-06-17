@@ -1,10 +1,7 @@
 import {
-  Box,
-  Spinner,
-  Center,
-  Text
+  Box, Center, Spinner, Text
 } from "@chakra-ui/react";
-import { useBackgroundColors, useColors } from "styles/theme/foundations/colors";
+import { useBackgroundColors } from "styles/theme/foundations/colors";
 
 export const SpinnerContainer = ({ isLoading, error, ...props }) => {
   const bgColor = useBackgroundColors().card;

@@ -1,7 +1,6 @@
-import { Link } from "./Link";
-import { useColorModeValue } from "@chakra-ui/react";
-import { navLinks } from "./links";
 import { useLinkColors } from "styles/theme/foundations/colors";
+import { Link } from "./Link";
+import { navLinks } from "./links";
 
 export const TextLink = props => {
   const linkColors = useLinkColors();

@@ -1,5 +1,3 @@
-import { extendTheme } from "@chakra-ui/react";
-
 const Link = {
   baseStyle: {
     fontSize: "lg",

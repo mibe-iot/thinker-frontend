@@ -19,7 +19,7 @@ export const DeviceFullViewModal = ({ isOpen, onOpen, onClose: closeModal }) => 
     const [isSaving, setSaving] = useState(false);
     const activeDeviceAddress = useSelector(state => state.devices.activeDeviceAddress);
     const { data: entities } = useFetchDevicesQuery();
-    const [updateDevice, { isLoading, isError, isSuccess, error }] = usePatchDeviceMutation(activeDeviceAddress);
+    const [updateDevice, { isLoading, isError, isSuccess }] = usePatchDeviceMutation(activeDeviceAddress);
     const [deleteDevice, { isLoading: isDeleting, isError: isDeleteError, isSuccess: isDeleteSuccess }] = useDeleteDeviceMutation();
     const [isEditMode, setEditMode] = useState(false);
     const initialRef = useRef();
@@ -37,7 +37,7 @@ export const DeviceFullViewModal = ({ isOpen, onOpen, onClose: closeModal }) => 
         } else if (isSaving && !loading && isDeleteError) {
             setSaving(false)
         }
-    }, [loading, isSaving])
+    }, [loading, isSaving, closeModal, isDeleteError, isDeleteSuccess, isDeleting, isError, isLoading, isSuccess])
 
     if (!isOpen) {
         return <></>

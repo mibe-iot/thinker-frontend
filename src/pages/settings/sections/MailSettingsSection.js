@@ -6,9 +6,9 @@ import { Field } from "formik"
 import { SettingsSection } from "./SettingsSection"
 
 
-export const MailSettingsSection = ({sectionName}) => {
-    const {data: mailSettings, isLoading} = useGetSettingsByTypeQuery({type: MAIL_SETTINGS_TYPE});
-    const [updateMailSettings ,{}] = useUpdateMailSettingsMutation();
+export const MailSettingsSection = ({ sectionName }) => {
+    const { data: mailSettings, isLoading } = useGetSettingsByTypeQuery({ type: MAIL_SETTINGS_TYPE });
+    const [updateMailSettings] = useUpdateMailSettingsMutation();
     const sectionInputs = {
         "Email username":
             <Field
@@ -37,16 +37,16 @@ export const MailSettingsSection = ({sectionName}) => {
     }
     return (
         <SpinnerContainer isLoading={isLoading}>
-        <SettingsSection
-            name={sectionName}
-            onSubmit={(values, { }) => updateMailSettings({
-                mailUsername: values.email.split(""),
-                mailPassword: values.password.split(""),
-                type: MAIL_SETTINGS_TYPE
-            })}
-            initialValues={initialValues}
-            labelsToFields={sectionInputs}
-        />
+            <SettingsSection
+                name={sectionName}
+                onSubmit={(values) => updateMailSettings({
+                    mailUsername: values.email.split(""),
+                    mailPassword: values.password.split(""),
+                    type: MAIL_SETTINGS_TYPE
+                })}
+                initialValues={initialValues}
+                labelsToFields={sectionInputs}
+            />
         </SpinnerContainer>
     )
 }
