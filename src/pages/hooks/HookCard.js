@@ -18,12 +18,12 @@ export const HookCard = ({ hook, refresh }) => {
             divider={<Divider />}
         >
             <Flex width="100%" direction="row">
-                <Text flexGrow={1} fontSize="lg" fontWeight="semibold">Name: {coalesce(hook.name, "[None]")}</Text>
-                <DeleteButton onClick={() => { deleteHook(hook.id); delay(1, refresh()) }} />
+                <Text pe={3} flexGrow={1} fontSize="lg" fontWeight="semibold">Name: {coalesce(hook.name, "[None]")}</Text>
+                <DeleteButton onClick={() => { deleteHook(hook.id); delay(1, refresh) }} />
             </Flex>
+            <Text fontSize="sm">Description: {coalesce(hook.description, "[None]")}</Text>
             <Text>Type: {coalesce(hook.type, "[None]")}</Text>
             <Text>Id: {coalesce(hook.id, "[None]")}</Text>
-            <Text fontSize="sm">Description: {coalesce(hook.description, "[None]")}</Text>
         </VStack>
     )
 }

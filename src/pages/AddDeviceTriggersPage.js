@@ -1,5 +1,6 @@
 import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Badge, Box, Button, Center, Divider, Flex, Heading, SimpleGrid, Text, Tooltip, VStack } from "@chakra-ui/react";
-import { useCreateTriggersMutation, useGetAllHooksQuery, useGetDeviceTriggersQuery } from "api/services/hooksApi";
+import { useCreateTriggersMutation, useDeleteTriggerMutation, useGetAllHooksQuery, useGetDeviceTriggersQuery } from "api/services/hooksApi";
+import { DeleteButton } from "components/button/DeleteButton";
 import { RefreshButton } from "components/button/RefreshButton";
 import { ActionPanel } from "components/panel/ActionPanel";
 import { SpinnerContainer } from "components/spinner/SpinnerContainer";
@@ -7,7 +8,8 @@ import { PageTitle } from "components/text/PageTitle";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useFetchDevicesQuery } from "store/slice/devicesSlice";
-import { HookCard } from "./hooks/HookCard";
+import { useBorderColors } from "styles/theme/foundations/colors";
+import { coalesce, delay } from "utils/utils";
 
 
 
@@ -74,7 +76,7 @@ const TriggerCreator = ({ device }) => {
 
 const CreateTriggersForm = ({ device }) => {
     const [createTriggers] = useCreateTriggersMutation();
-    const { data: hooks } = useGetAllHooksQuery();
+    const { data: hooks, refetch } = useGetAllHooksQuery();
     const [selectedTypes, setSelectedTypes] = useState({});
     const [selectedHooks, setSelectedHooks] = useState({});
     const [isSaveActive, setSaveActive] = useState(false);
@@ -115,6 +117,7 @@ const CreateTriggersForm = ({ device }) => {
         setSelectedHooks({})
         setSelectedTypes({})
         setSaveActive(false)
+        delay(1, refetch)
     }
     const Chip = ({ id, name, initialChecked, callback }) => {
         const [isChecked, setChecked] = useState(initialChecked);
@@ -194,13 +197,37 @@ const TriggersAndHooks = ({ triggers, hooks, refresh }) => {
                         </Flex>
                         <SimpleGrid w="100%" columns={{ base: 1, md: 2, lg: 3, xl: 4 }} spacing="1.5rem">
                             {typeTriggers.map(trigger => (
-                                <HookCard key={trigger.id} refresh={refresh} hook={hooks.filter(hook => hook.id === trigger.hookId)[0]} />
+                                <TriggerHookCard key={trigger.id} refresh={refresh} hook={hooks.filter(hook => hook.id === trigger.hookId)[0]} />
                             ))}
                         </SimpleGrid>
 
                     </VStack>
                 ))
             }
+        </VStack>
+    )
+}
+
+export const TriggerHookCard = ({ hook, refresh }) => {
+    const [deleteTrigger] = useDeleteTriggerMutation()
+    return (
+        <VStack
+            align="start"
+            border={1}
+            borderRadius="2xl"
+            borderStyle={"solid"}
+            borderColor={useBorderColors().widget}
+            p={3}
+            boxSizing="fitContent"
+            divider={<Divider />}
+        >
+            <Flex width="100%" direction="row">
+                <Text pe={3} flexGrow={1} fontSize="lg" fontWeight="semibold">Name: {coalesce(hook.name, "[None]")}</Text>
+                <DeleteButton onClick={() => { deleteTrigger(hook.id); delay(1, refresh) }} />
+            </Flex>
+            <Text fontSize="sm">Description: {coalesce(hook.description, "[None]")}</Text>
+            <Text>Type: {coalesce(hook.type, "[None]")}</Text>
+            <Text>Id: {coalesce(hook.id, "[None]")}</Text>
         </VStack>
     )
 }

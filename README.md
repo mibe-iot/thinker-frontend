@@ -1,3 +1,11 @@
+# Thinker's front-end
+
+Welcome to the front-end part of the thinker!
+
+Front-end is build using React and create-react-app. Application is developed to run on any system.
+
+Repository also contains an image configuration that runs nginx with reverse-proxy to support back-end calls.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
