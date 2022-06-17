@@ -4,75 +4,92 @@ Welcome to the front-end part of the thinker!
 
 Front-end is build using React and create-react-app. Application is developed to run on any system.
 
-Repository also contains an image configuration that runs nginx with reverse-proxy to support back-end calls.
+Repository also contains an image configuration that runs nginx with reverse-proxy to support back-end calls. You also
+could run application in `dev` mode.
 
-# Getting Started with Create React App
+See also common thinker repository: https://github.com/mibe-iot/thinker
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Introduction
 
-## Available Scripts
+Thinker is a web-server that controls mibe-iot network. It consists of two parts: back-end and front-end. All
+business-logic functions are performed ny back-end part. You can read more about it
+here: https://github.com/mibe-iot/thinker-backend
 
-In the project directory, you can run:
+This repository contains front-end part of thinker. It is React application, that consumes back-end API to provide user
+with convenient and simply GUI. React application was chosen as a realisation of GUI because it offers great support for
+any device that could consume HTTP traffic and HTML pages. Since that application could be accessed via any device:
+mobile phone, PC or even Smart TV.
 
-### `npm start`
+## Screenshots
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Mobile version screenshots:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+![mobile-screenshots](./screenshots/front-end-screenshots-1.png)
 
-### `npm test`
+### PC version
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### Home page:
 
-### `npm run build`
+![pc-home-page-screenshot](./screenshots/front-end-screenshots-2.png)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Discovery page:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+![pc-discovery-page-screenshot](./screenshots/front-end-screenshots-3.png)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Device data view modal:
 
-### `npm run eject`
+![pc-discovery-page-screenshot](./screenshots/front-end-screenshots-4.png)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Triggers page:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+![pc-discovery-page-screenshot](./screenshots/front-end-screenshots-5.png)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Running application
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Running app via docker
 
-## Learn More
+This repository offers you a possibility to run application just by cloning a ready-to-use image:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```shell
+docker pull ghcr.io/mibe-iot/thinker-frontend:latest
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Running app from sources
 
-### Code Splitting
+You could also run this application right after cloning. To run application in production you will need to build app
+into static files and then use a server to serve your files. To do this you can use `serve`:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```shell
+npm install serve -g
+```
 
-### Analyzing the Bundle Size
+This image uses nginx to serve application on port `:80`. You can view [nginx.conf](./nginx.conf) to see server
+configuration details.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+This will install `serve` **globally**.
 
-### Making a Progressive Web App
+After installing `serve` you are ready to build and run application:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```shell
+npm run build
+serve -s build
+```
 
-### Advanced Configuration
+### Running app from sources in dev mode
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Or you could run app in dev mode. To do this, just run:
 
-### Deployment
+```shell
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+And then application will start on `localhost:3000`. Please note that in `dev` mode application expects thinker-backend
+to be up and ready on `localhost:8080`. If you'd like to change it, see the end of [package.json](./package.json) file.
 
-### `npm run build` fails to minify
+## Contacts:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Feel free to reach me out in case of any question:
+
+**Linked-in:** https://www.linkedin.com/in/ilya-buhlakou-33860b205/
+
+**Mail:** ilboogl@gmail.com
