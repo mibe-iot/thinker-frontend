@@ -36,7 +36,7 @@ export const ConnectPage = () => {
   const { isLoading, refetch: refetchDiscoveredDevices } = useGetDiscoveredDevicesQuery();
   const { refetch: refetchDevices } = useFetchDevicesQuery();
   const refetchAllDevices = () => { refetchDevices(); refetchDiscoveredDevices() }
-  useEffect(refetchAllDevices, [isDiscoveryActive, refetchDiscoveredDevices, refetchDevices]);
+  useEffect(refetchAllDevices);
   return (
     <Stack w="100%" spacing="4">
       <ActionPanel
