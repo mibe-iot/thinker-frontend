@@ -36,7 +36,8 @@ export const ConnectPage = () => {
   const { isLoading, refetch: refetchDiscoveredDevices } = useGetDiscoveredDevicesQuery();
   const { refetch: refetchDevices } = useFetchDevicesQuery();
   const refetchAllDevices = () => { refetchDevices(); refetchDiscoveredDevices() }
-  useEffect(refetchAllDevices);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(refetchAllDevices, []);
   return (
     <Stack w="100%" spacing="4">
       <ActionPanel
